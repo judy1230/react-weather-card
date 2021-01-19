@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 //step 1 : 使用import {ReactComponent as XXX} from xxx 載入svg
+import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
 import { ReactComponent as RainIcon } from '../images/rain.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
@@ -53,6 +54,11 @@ const AirFlow = styled.div`
   font-weight: 300;
   color: #828282;
   margin-bottom: 20px;
+  svg {
+    width: 25px;
+    height: auto;
+    margin-right: 30px;
+  }
 `
 const Rain = styled.div`
   display: flex;
@@ -60,6 +66,11 @@ const Rain = styled.div`
   font-size: 16x;
   font-weight: 300;
   color: #828282;
+  svg {
+    width: 25px;
+    height: auto;
+    margin-right: 30px;
+  }
 `
 const Refresh = styled.div`
   position: absolute;
@@ -69,7 +80,14 @@ const Refresh = styled.div`
   display: inline-flex;
   align-items: flex-end;
   color: #828282;
+  svg {
+    margin-left: 10px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+  }
 `
+
 function App() {
 
   return (
@@ -85,13 +103,13 @@ function App() {
           <DayCloudy />
         </CurrentWeather>
         <AirFlow>
-          23 m/h
+          <AirFlowIcon/> 23 m/h
         </AirFlow>
         <Rain>
           <RainIcon/> 48%
         </Rain>
         <Refresh>
-          最後觀測時間：上午 12:03 <RefreshIcon/>
+          最後觀測時間：上午 12:03 <RefreshIcon />
         </Refresh>
       </WeatherCard>
     </Container>
