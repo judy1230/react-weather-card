@@ -1,13 +1,35 @@
 import React from 'react'
 import styled from '@emotion/styled'
-//step 1 : 使用import {ReactComponent as XXX} from xxx 載入svg
 import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
 import { ReactComponent as RainIcon } from '../images/rain.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
+//step1: import ThemeProvider from 'emotion-theming'
+import { useTheme, ThemeProvider, withTheme } from '@emotion/react'
+//import { ThemeProvider } from 'emotion-theming'
+
+const theme = {
+  light: {
+    backgroundColor: '#ededed',
+    foregroundColor: '#f9f9f9',
+    boxShadow: '0 1px 3px 0 #999999',
+    titleColor: '#212121',
+    temperatureColor: '#757575',
+    textColor: '#828282',
+  },
+  dark: {
+    backgroundColor: '#1F2022',
+    foregroundColor: '#121416',
+    boxShadow:
+      '0 1px 4px 0 rgba(12, 12, 13, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.15)',
+    titleColor: '#f9f9fa',
+    temperatureColor: '#dddddd',
+    textColor: '#cccccc',
+  },
+};
 
 const Container = styled.div`
-  background-color: #ededed;
+  background-color:${({ theme }) => theme.backgroundColor};
   height: 100%;
   display: flex;
   align-items: center;
@@ -16,21 +38,20 @@ const Container = styled.div`
 const WeatherCard = styled.div`
   position: relative;
   min-width: 360px;
-  box-shadow: 0 1px 3px 0 #999999;
-  background-color: #f9f9f9;
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  background-color: ${({ theme }) => theme.backgroundColor};
   box-sizing: border-box;
   padding: 30px 15px;
 `
 const Location = styled.div`
   ${props => console.log(props)}
   font-size: 28px;
-  //color: #212121;
   color: ${props => props.theme === 'dark' ? '#dadada' : '#212121'};
   margin-bottom: 20px;
 `
 const Description = styled.div`
   font-size: 16px;
-  color: #828282;
+  color: ${({ theme }) => theme.textColor};
   margin-bottom: 30px;
 `
 const CurrentWeather = styled.div`
@@ -40,7 +61,7 @@ const CurrentWeather = styled.div`
   margin-bottom: 30px;
 `
 const Temperature = styled.div`
-  color: #757575;
+  color: ${({ theme }) => theme.temperatureColor};
   font-size: 96px;
   font-weight: 300;
   display: flex;
@@ -54,7 +75,7 @@ const AirFlow = styled.div`
   align-items: center;
   font-size: 16x;
   font-weight: 300;
-  color: #828282;
+  color: ${({theme}) => theme.textColor};
   margin-bottom: 20px;
   svg {
     width: 25px;
@@ -67,7 +88,7 @@ const Rain = styled.div`
   align-items: center;
   font-size: 16x;
   font-weight: 300;
-  color: #828282;
+  color: ${({ theme }) => theme.textColor};
   svg {
     width: 25px;
     height: auto;
@@ -81,7 +102,7 @@ const Refresh = styled.div`
   font-size: 12px;
   display: inline-flex;
   align-items: flex-end;
-  color: #828282;
+  color: ${({ theme }) => theme.textColor};
   svg {
     margin-left: 10px;
     width: 15px;
@@ -93,28 +114,30 @@ const Refresh = styled.div`
 function App() {
 
   return (
-    //step2: 直接使用該 Component
-    <Container>
-      <WeatherCard>
-        <Location theme="dark">台北市</Location>
-        <Description>多雲時晴</Description>
-        <CurrentWeather>
-          <Temperature>
-            23 <Celsius>°C</Celsius>
-          </Temperature>
-          <DayCloudy />
-        </CurrentWeather>
-        <AirFlow>
-          <AirFlowIcon/> 23 m/h
+    //step2: 透過 props 傳入theme
+    <ThemeProvider theme={theme.dark}>
+      <Container>
+        <WeatherCard>
+          <Location>台北市</Location>
+          <Description>多雲時晴</Description>
+          <CurrentWeather>
+            <Temperature>
+              23 <Celsius>°C</Celsius>
+            </Temperature>
+            <DayCloudy />
+          </CurrentWeather>
+          <AirFlow>
+            <AirFlowIcon /> 23 m/h
         </AirFlow>
-        <Rain>
-          <RainIcon/> 48%
+          <Rain>
+            <RainIcon /> 48%
         </Rain>
-        <Refresh>
-          最後觀測時間：上午 12:03 <RefreshIcon />
-        </Refresh>
-      </WeatherCard>
-    </Container>
+          <Refresh>
+            最後觀測時間：上午 12:03 <RefreshIcon />
+          </Refresh>
+        </WeatherCard>
+      </Container>
+    </ThemeProvider>
   )
 }
 
