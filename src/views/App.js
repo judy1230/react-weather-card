@@ -1,12 +1,12 @@
-import React from 'react'
+import  React,{ useState }  from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
 import { ReactComponent as RainIcon } from '../images/rain.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 //step1: import ThemeProvider from 'emotion-theming'
-import { useTheme, ThemeProvider, withTheme } from '@emotion/react'
-//import { ThemeProvider } from 'emotion-theming'
+import { ThemeProvider } from '@emotion/react'
+
 
 const theme = {
   light: {
@@ -112,10 +112,10 @@ const Refresh = styled.div`
 `
 
 function App() {
-
+  //使用useSate 並定義currentTheme的預設值為light
+  const [ currentTheme, setCurrentTheme ] = useState('dark')
   return (
-    //step2: 透過 props 傳入theme
-    <ThemeProvider theme={theme.dark}>
+    <ThemeProvider theme={theme[currentTheme]}>
       <Container>
         <WeatherCard>
           <Location>台北市</Location>
