@@ -1,8 +1,10 @@
 import React from 'react'
-//step1 套入 emotion styled套件套入
 import styled from '@emotion/styled'
+//step 1 : 使用import {ReactComponent as XXX} from xxx 載入svg
+import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
+import { ReactComponent as RainIcon } from '../images/rain.svg'
+import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 
-//step 2 定義帶有styled的component
 const Container = styled.div`
   background-color: #ededed;
   height: 100%;
@@ -28,26 +30,22 @@ const Description = styled.div`
   color: #828282;
   margin-bottom: 30px;
 `
-
 const CurrentWeather = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
 `
-
 const Temperature = styled.div`
   color: #757575;
   font-size: 96px;
   font-weight: 300;
   display: flex;
 `
-
 const Celsius = styled.div`
   font-weight: normal;
   font-size: 42px;
 `
-
 const AirFlow = styled.div`
   display: flex;
   align-items: center;
@@ -56,7 +54,6 @@ const AirFlow = styled.div`
   color: #828282;
   margin-bottom: 20px;
 `
-
 const Rain = styled.div`
   display: flex;
   align-items: center;
@@ -64,7 +61,6 @@ const Rain = styled.div`
   font-weight: 300;
   color: #828282;
 `
-
 const Refresh = styled.div`
   position: absolute;
   right: 15px;
@@ -77,7 +73,7 @@ const Refresh = styled.div`
 function App() {
 
   return (
-    //step3 把定義好的styled-component當成元件使用
+    //step2: 直接使用該 Component
     <Container>
       <WeatherCard>
         <Location>台北市</Location>
@@ -86,15 +82,16 @@ function App() {
           <Temperature>
             23 <Celsius>°C</Celsius>
           </Temperature>
+          <DayCloudy />
         </CurrentWeather>
         <AirFlow>
           23 m/h
         </AirFlow>
         <Rain>
-          48%
+          <RainIcon/> 48%
         </Rain>
         <Refresh>
-          最後觀測時間：上午 12:03 
+          最後觀測時間：上午 12:03 <RefreshIcon/>
         </Refresh>
       </WeatherCard>
     </Container>
