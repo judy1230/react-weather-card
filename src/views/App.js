@@ -7,6 +7,11 @@ import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ThemeProvider } from '@emotion/react'
 import dayjs from 'dayjs'
 
+//定義好授權碼與區域
+const AUTHORIZATION_KEY = 'CWB-6B0FF102-FDE8-40C3-B2CA-CECA1E4E67E5'
+const LOCATION_NAME = '台北市'
+const base_url = 'opendata.cwb.gov.tw/api'
+
 const theme = {
   light: {
     backgroundColor: '#ededed',
@@ -112,7 +117,6 @@ const Refresh = styled.div`
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('light')
-  //step 1 定義會使用到的資料
   const [currentWeather, setCurrentWeather] = useState({
     locationName: '台北市',
     description: '晴時多雲',
@@ -121,6 +125,18 @@ function App() {
     rainPossibility: 48.3,
     observationTime: '2020-12-12 22:10:00'
   })
+
+  //step2: 將AUTHORIZATION_KEY 和 LOCATION_NAME 帶入 API 請求中
+  const handleClick = () => {
+    console.log('handleClick')
+    fetch(
+      `https://${base_url}/v1/rest/datastore/O-A0003-001?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
+    ).then((response) => response.json())
+      .then((data) => {
+        console.log('data', data)
+      })
+  }
+
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
@@ -141,12 +157,13 @@ function App() {
           <Rain>
             <RainIcon /> {currentWeather.rainPossibility}%
         </Rain>
+
           <Refresh>
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
               minute: 'numeric',
-              //exchange new Date(cure....) to dayjs(curre...)
-            }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon />
+              // step3: 綁定handleClick()
+            }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon onClick={ handleClick }/>
           </Refresh>
         </WeatherCard>
       </Container>
