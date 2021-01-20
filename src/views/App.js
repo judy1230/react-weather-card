@@ -5,6 +5,7 @@ import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
 import { ReactComponent as RainIcon } from '../images/rain.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
+import { ReactComponent as LoadingIcon } from '../images/loading.svg'
 import { ThemeProvider } from '@emotion/react'
 import dayjs from 'dayjs'
 
@@ -100,6 +101,14 @@ const Rain = styled.div`
   }
 `
 const Refresh = styled.div`
+  @keyframes rotate{
+    from {
+      transform: rotate(360deg)
+    }
+    to {
+      transform: rotate(0deg)
+    }
+  }
   position: absolute;
   right: 15px;
   bottom: 15px;
@@ -112,11 +121,12 @@ const Refresh = styled.div`
     width: 15px;
     height: 15px;
     cursor: pointer;
+    animation: rotate infinite 1.5s linear
+    animation-duration: ${({ isLoading }) => ( isLoading ? '1.5s' : '0s' )}
   }
 `
 
 function App() {
-  console.log('invoke function component')
   const [currentTheme, setCurrentTheme] = useState('light')
   const [currentWeather, setCurrentWeather] = useState({
     locationName: '台北市',
@@ -124,28 +134,29 @@ function App() {
     windSpeed: 1.1,
     temperature: 14,
     rainPossibility: 48.3,
-    observationTime: '2020-12-12 22:10:00'
+    observationTime: '2020-12-12 22:10:00',
+    isLoading: true
   })
-  //step2: 使用useEffect, 加入useEffect的方法, 參數是需要放入函式
+  const {
+    observationTime,
+    locationName,
+    description,
+    windSpeed,
+    temperature,
+    rainPossibility,
+    isLoading
+  } = currentWeather
+  
   useEffect(() => {
-    //step 3: 加入console.log看看useEffect觸發的時間點
-    console.log('execute function in useEffect')
-    //step 5: 把handleClick改成fetchCurrentWeather放入useEffect當中
     fetchCurrentWeather()
-    //step 6: 加入[]陣列阻止useEffect不停render
   }, [currentWeather.observationTime])
 
   const fetchCurrentWeather = () => {
-    //console.log('handleClick')
     fetch(
       `https://${base_url}/v1/rest/datastore/O-A0003-001?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
     ).then((response) => response.json())
       .then((data) => {
-        //console.log('data', data)
-        //step1: 定義'locationData'把回傳的資料會用到的部分取出
         const locationData = data.records.location[0]
-        //console.log('locationData', locationData)
-        //step2: 將風速(WDSD)和氣溫(TEMP)的資料取出
         const weatherElements = locationData.weatherElement.reduce(
           (neededElements, item) => {
             if (['WDSD', 'TEMP', 'Weather', 'HUMD'].includes(item.elementName)) {
@@ -154,15 +165,14 @@ function App() {
             return neededElements
           }
         )
-        //console.log('weatherElements', weatherElements)
-        //step3:  更新react元件中的資料狀態
         setCurrentWeather({
           locationName: locationData.locationName,
           description: weatherElements.Weather,
           windSpeed: weatherElements.WDSD,
           temperature: weatherElements.TEMP,
           rainPossibility: weatherElements.HUMD*100,
-          observationTime: locationData.time.obsTime
+          observationTime: locationData.time.obsTime,
+          isLoading: false
         })
 
       })
@@ -173,8 +183,7 @@ function App() {
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
-        {/* step 4: 加入console.log看看useEffect觸發的時間點 */}
-        { console.log('render')}
+        { console.log('render, isLoading:',currentWeather.isLoading)}
         <WeatherCard>
           <Location>{ currentWeather.locationName }</Location>
           <Description>{currentWeather.description}</Description>
@@ -191,11 +200,13 @@ function App() {
             <RainIcon /> {currentWeather.rainPossibility}%
         </Rain>
 
-          <Refresh>
+          <Refresh onClick={fetchCurrentWeather}
+            isLoading= {currentWeather.isLoading}>
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
               minute: 'numeric',
-            }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon onClick={ fetchCurrentWeather }/>
+            }).format(dayjs(currentWeather.observationTime))} {' '}
+            {isLoading ? <LoadingIcon /> : <RefreshIcon />}
           </Refresh>
         </WeatherCard>
       </Container>
