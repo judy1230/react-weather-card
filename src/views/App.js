@@ -117,7 +117,7 @@ function App() {
     locationName: '台北市',
     description: '晴時多雲',
     windSpeed: 1.1,
-    temperature: 22.9,
+    temperature: 14,
     rainPossibility: 48.3,
     observationTime: '2020-12-12 22:10:00'
   })
@@ -145,6 +145,7 @@ function App() {
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
               minute: 'numeric',
+              //exchange new Date(cure....) to dayjs(curre...)
             }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon />
           </Refresh>
         </WeatherCard>
