@@ -5,7 +5,7 @@ import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
 import { ReactComponent as RainIcon } from '../images/rain.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ThemeProvider } from '@emotion/react'
-
+import dayjs from 'dayjs'
 
 const theme = {
   light: {
@@ -145,7 +145,7 @@ function App() {
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
               minute: 'numeric',
-            }).format(new Date(currentWeather.observationTime))} {' '}<RefreshIcon />
+            }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon />
           </Refresh>
         </WeatherCard>
       </Container>
