@@ -1,4 +1,5 @@
-import  React,{ useState }  from 'react'
+//step 1: 載入useEffect
+import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
@@ -115,6 +116,7 @@ const Refresh = styled.div`
 `
 
 function App() {
+  console.log('invoke function component')
   const [currentTheme, setCurrentTheme] = useState('light')
   const [currentWeather, setCurrentWeather] = useState({
     locationName: '台北市',
@@ -124,17 +126,25 @@ function App() {
     rainPossibility: 48.3,
     observationTime: '2020-12-12 22:10:00'
   })
+  //step2: 使用useEffect, 加入useEffect的方法, 參數是需要放入函式
+  useEffect(() => {
+    //step 3: 加入console.log看看useEffect觸發的時間點
+    console.log('execute function in useEffect')
+    //step 5: 把handleClick改成fetchCurrentWeather放入useEffect當中
+    fetchCurrentWeather()
+    //step 6: 加入[]陣列阻止useEffect不停render
+  }, [currentWeather.observationTime])
 
-  const handleClick = () => {
-    console.log('handleClick')
+  const fetchCurrentWeather = () => {
+    //console.log('handleClick')
     fetch(
       `https://${base_url}/v1/rest/datastore/O-A0003-001?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
     ).then((response) => response.json())
       .then((data) => {
-        console.log('data', data)
+        //console.log('data', data)
         //step1: 定義'locationData'把回傳的資料會用到的部分取出
         const locationData = data.records.location[0]
-        console.log('locationData', locationData)
+        //console.log('locationData', locationData)
         //step2: 將風速(WDSD)和氣溫(TEMP)的資料取出
         const weatherElements = locationData.weatherElement.reduce(
           (neededElements, item) => {
@@ -144,7 +154,7 @@ function App() {
             return neededElements
           }
         )
-        console.log('weatherElements', weatherElements)
+        //console.log('weatherElements', weatherElements)
         //step3:  更新react元件中的資料狀態
         setCurrentWeather({
           locationName: locationData.locationName,
@@ -163,8 +173,9 @@ function App() {
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
+        {/* step 4: 加入console.log看看useEffect觸發的時間點 */}
+        { console.log('render')}
         <WeatherCard>
-          {/* step2: 放入參數 */}
           <Location>{ currentWeather.locationName }</Location>
           <Description>{currentWeather.description}</Description>
           <CurrentWeather>
@@ -184,7 +195,7 @@ function App() {
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
               minute: 'numeric',
-            }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon onClick={ handleClick }/>
+            }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon onClick={ fetchCurrentWeather }/>
           </Refresh>
         </WeatherCard>
       </Container>
