@@ -7,9 +7,8 @@ import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ThemeProvider } from '@emotion/react'
 import dayjs from 'dayjs'
 
-//定義好授權碼與區域
 const AUTHORIZATION_KEY = 'CWB-6B0FF102-FDE8-40C3-B2CA-CECA1E4E67E5'
-const LOCATION_NAME = '台北市'
+const LOCATION_NAME = '臺北'
 const base_url = 'opendata.cwb.gov.tw/api'
 
 const theme = {
@@ -126,7 +125,6 @@ function App() {
     observationTime: '2020-12-12 22:10:00'
   })
 
-  //step2: 將AUTHORIZATION_KEY 和 LOCATION_NAME 帶入 API 請求中
   const handleClick = () => {
     console.log('handleClick')
     fetch(
@@ -134,7 +132,31 @@ function App() {
     ).then((response) => response.json())
       .then((data) => {
         console.log('data', data)
+        //step1: 定義'locationData'把回傳的資料會用到的部分取出
+        const locationData = data.records.location[0]
+        console.log('locationData', locationData)
+        //step2: 將風速(WDSD)和氣溫(TEMP)的資料取出
+        const weatherElements = locationData.weatherElement.reduce(
+          (neededElements, item) => {
+            if (['WDSD', 'TEMP', 'Weather', 'HUMD'].includes(item.elementName)) {
+              neededElements[item.elementName] = item.elementValue
+            }
+            return neededElements
+          }
+        )
+        console.log('weatherElements', weatherElements)
+        //step3:  更新react元件中的資料狀態
+        setCurrentWeather({
+          locationName: locationData.locationName,
+          description: weatherElements.Weather,
+          windSpeed: weatherElements.WDSD,
+          temperature: weatherElements.TEMP,
+          rainPossibility: weatherElements.HUMD*100,
+          observationTime: locationData.time.obsTime
+        })
+
       })
+
   }
 
 
@@ -162,7 +184,6 @@ function App() {
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
               minute: 'numeric',
-              // step3: 綁定handleClick()
             }).format(dayjs(currentWeather.observationTime))} {' '}<RefreshIcon onClick={ handleClick }/>
           </Refresh>
         </WeatherCard>
