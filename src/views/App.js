@@ -1,4 +1,3 @@
-//step 1: 載入useEffect
 import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
@@ -14,7 +13,6 @@ const LOCATION_NAME = '宜蘭'
 const base_url = 'opendata.cwb.gov.tw/api'
 const current_weather_url ='/v1/rest/datastore/O-A0003-001?'
 const forecast_weather_url = 'v1/rest/datastore/F-D0047-003?'
-//step1: 定義forecast location
 const LOCATION_NAME_FORECAST = '羅東鎮'
 
 
@@ -131,7 +129,73 @@ const Refresh = styled.div`
     animation-duration: ${({ isLoading }) => ( isLoading ? '1.5s' : '0s' )}
   }
 `
+//step3: 把兩個fetch function放到外面
+const fetchWeatherForecast = () => {
+  return fetch(
+    `https://${base_url}/${forecast_weather_url}Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME_FORECAST}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('data',data)
+      const locationData = data.records.locations[0].location[0]
+      const weatherElements = locationData.weatherElement.reduce(
+        (neededElements, item) => {
+          if (['Wx', 'PoP12h', 'MaxCI'].includes(item.elementName)) {
+            neededElements[item.elementName] = item.time[0].elementValue
+          }
+          return neededElements
+        },
+        {}
+      )
+      //step1: 不使用setWeatherElement來更新畫面, 先 return 資料回去
+      return {
+        description: weatherElements.Wx[0].value,
+        weatherCode: weatherElements.Wx[1].value,
+        rainPossibility: weatherElements.PoP12h[0].value,
+        comfortability: weatherElements.MaxCI[0].value,
+      }
+      // setWeatherElement((prevState) => ({
+      //   ...prevState,
+      //   description: weatherElements.Wx.parameterName,
+      //   weatherCode: weatherElements.Wx.parameterValue,
+      //   rainPossibility: weatherElements.PoP12h[0].value,
+      //   comfortability: weatherElements.MaxCI.parameterName,
+      // }))
+    })
+}
 
+
+const fetchCurrentWeather = () => {
+  return fetch(
+    `https://${base_url}/${current_weather_url}Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
+  ).then((response) => response.json())
+    .then((data) => {
+      const locationData = data.records.location[0]
+      const weatherElements = locationData.weatherElement.reduce(
+        (neededElements, item) => {
+          if (['WDSD', 'TEMP', 'Weather', 'HUMD'].includes(item.elementName)) {
+            neededElements[item.elementName] = item.elementValue
+          }
+          return neededElements
+        },
+        {}
+      )
+      //step1: 不使用setWeatherElement來更新畫面, 先 return 資料回去
+      return {
+        locationName: locationData.locationName,
+        windSpeed: weatherElements.WDSD,
+        temperature: weatherElements.TEMP,
+        observationTime: locationData.time.obsTime,
+      }
+      // setWeatherElement((prevState) => ({
+      //   ...prevState,
+      //
+      //   isLoading: false
+      // }))
+
+    })
+
+}
 function App() {
   const [currentTheme, setCurrentTheme] = useState('light')
   const [weatherElement, setWeatherElement] = useState({
@@ -146,72 +210,31 @@ function App() {
     isLoading: true
   })
 
-
+  //step2: 定義async function fetchData
   useEffect(() => {
-    fetchCurrentWeather()
-    fetchWeatherForecast()
+    setWeatherElement((prevState) => ({
+      ...prevState,
+      isLoading: true,
+    }))
+    //step2-1: 在useEffect中定義 async function 取名為 fetchData取名為 fetchData
+    const fetchData = async () => {
+      //step2-2: 使用Promise.all搭配await等待兩個API都取得回應後才繼續
+      const [currentWeather, weatherForecast] = await Promise.all([
+        fetchCurrentWeather(),
+        fetchWeatherForecast(),
+      ])
+      //step3: 檢視取得的資料
+      setWeatherElement({
+        ...currentWeather,
+        ...weatherForecast,
+        isLoading: false,
+      })
+    }
+    //step4: 在useEffect中呼叫fetchData
+    fetchData()
   }, [])
 
-  //step2 : add fetchWeatherForecast 函式
-  const fetchWeatherForecast = () => {
-    fetch(
-      `https://${base_url}/${forecast_weather_url}Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME_FORECAST}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const locationData = data.records.locations[0].location[0]
-        console.log('locationData.weatherElement', locationData.weatherElement)
-        const weatherElements = locationData.weatherElement.reduce(
-          (neededElements, item) => {
-            if (['Wx', 'PoP12h', 'MaxCI'].includes(item.elementName)) {
-              neededElements[item.elementName] = item.time[0].elementValue
-            }
-            console.log('neededElements', neededElements)
-            return neededElements
-          },
-          {}
-        )
-        setWeatherElement((prevState) => ({
-          ...prevState,
-          description: weatherElements.Wx.parameterName,
-          weatherCode: weatherElements.Wx.parameterValue,
-          rainPossibility: weatherElements.PoP12h[0].value,
-          comfortability: weatherElements.MaxCI.parameterName,
-        }))
-      })
-  }
 
-
-  const fetchCurrentWeather = () => {
-    fetch(
-      `https://${base_url}/${current_weather_url}Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
-    ).then((response) => response.json())
-      .then((data) => {
-        const locationData = data.records.location[0]
-        const weatherElements = locationData.weatherElement.reduce(
-          (neededElements, item) => {
-            if (['WDSD', 'TEMP', 'Weather', 'HUMD'].includes(item.elementName)) {
-              neededElements[item.elementName] = item.elementValue
-            }
-            return neededElements
-          },
-          {}
-        )
-        //step 3: 更新setWeatherElement, 利用...preState來保留原來的資料, 並更新需更新的資料
-        setWeatherElement((prevState) => ({
-          ...prevState,
-          locationName: locationData.locationName,
-          //description: weatherElements.Weather,
-          windSpeed: weatherElements.WDSD,
-          temperature: weatherElements.TEMP,
-          //rainPossibility: weatherElements.HUMD * 100,
-          observationTime: locationData.time.obsTime,
-          isLoading: false
-        }))
-
-      })
-
-  }
   const {
     observationTime,
     locationName,
@@ -242,7 +265,6 @@ function App() {
           <Rain>
             <RainIcon /> {rainPossibility}%
           </Rain>
-          {/* 加上fetchWeatherForecast於 onclick 中 */}
           <Refresh onClick={() => { fetchCurrentWeather(); fetchWeatherForecast()}}
             isLoading={ isLoading }>
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
