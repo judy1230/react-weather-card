@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
@@ -129,7 +129,7 @@ const Refresh = styled.div`
     animation-duration: ${({ isLoading }) => ( isLoading ? '1.5s' : '0s' )}
   }
 `
-//step3: 把兩個fetch function放到外面
+
 const fetchWeatherForecast = () => {
   return fetch(
     `https://${base_url}/${forecast_weather_url}Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME_FORECAST}`
@@ -209,30 +209,28 @@ function App() {
     comfortability: '',
     isLoading: true
   })
-
-  //step2: 定義async function fetchData
-  useEffect(() => {
+  //useCallback中可以放入函式, 可以把原本的fetchData做的事放入useCallback的函式中
+  const fetchData = useCallback(async () => {
     setWeatherElement((prevState) => ({
       ...prevState,
       isLoading: true,
     }))
-    //step2-1: 在useEffect中定義 async function 取名為 fetchData取名為 fetchData
-    const fetchData = async () => {
-      //step2-2: 使用Promise.all搭配await等待兩個API都取得回應後才繼續
-      const [currentWeather, weatherForecast] = await Promise.all([
-        fetchCurrentWeather(),
-        fetchWeatherForecast(),
-      ])
-      //step3: 檢視取得的資料
-      setWeatherElement({
-        ...currentWeather,
-        ...weatherForecast,
-        isLoading: false,
-      })
-    }
-    //step4: 在useEffect中呼叫fetchData
-    fetchData()
+
+    const [currentWeather, weatherForecast] = await Promise.all([
+      fetchCurrentWeather(),
+      fetchWeatherForecast(),
+    ])
+
+    setWeatherElement({
+      ...currentWeather,
+      ...weatherForecast,
+      isLoading: false,
+    })
   }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
 
   const {
@@ -244,7 +242,7 @@ function App() {
     rainPossibility,
     isLoading,
     comfortability,
-  } = weatherElement;
+  } = weatherElement
 
 
   return (
@@ -265,7 +263,7 @@ function App() {
           <Rain>
             <RainIcon /> {rainPossibility}%
           </Rain>
-          <Refresh onClick={() => { fetchCurrentWeather(); fetchWeatherForecast()}}
+          <Refresh onClick={fetchData}
             isLoading={ isLoading }>
             最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
