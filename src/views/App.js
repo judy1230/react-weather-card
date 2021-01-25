@@ -259,7 +259,7 @@ function App() {
               {Math.round(temperature)} <Celsius>°C</Celsius>
             </Temperature>
             {/* step 6 : 從app.js中帶入weathercode,menet參數*/}
-            <WeatherIcon weatherCode={weatherCode} moment="night"/>
+            <WeatherIcon weatherCode={weatherCode} moment="day"/>
           </CurrentWeather>
           <AirFlow>
             <AirFlowIcon /> {windSpeed} m/h

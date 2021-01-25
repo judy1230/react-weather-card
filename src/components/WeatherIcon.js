@@ -1,6 +1,6 @@
-import React from 'react'
+//step 1 : 載入useMemo
+import React, { useMemo } from 'react'
 import styled from '@emotion/styled'
-//step 1 : 載入全部的svg圖檔
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
 import { ReactComponent as DayThunderstorm } from '../images/day-thunderstorm.svg'
 import { ReactComponent as DayClear } from '../images/day-clear.svg'
@@ -22,7 +22,6 @@ const IconContainer = styled.div`
 		max-height: 110px;
 	}
 `
-//step 2 : 定義 weather Types
 const weatherTypes = {
 	isThunderstorm: [15, 16, 17, 18, 21, 22, 33, 34, 35, 36, 41],
 	isClear: [1],
@@ -33,7 +32,7 @@ const weatherTypes = {
 		8,9,10,11,12,13,14,19,20,29,30,31,32,38,39],
 	isSnowing: [23, 37, 42],
 }
-//step 3 : 定義 weather Icons
+
 const weatherIcons = {
 	day: {
 		isThunderstorm: <DayThunderstorm />,
@@ -54,7 +53,7 @@ const weatherIcons = {
 		isSnowing: <NightSnowing />,
 	},
 }
-//step 4 : 使用迴圈找出該天氣代碼對應到的天氣型態
+
 const weatherCode2Type = (weatherCode) => {
 	const [weatherType] =
 		Object.entries(weatherTypes).find(([weatherType, weatherCodes]) =>
@@ -62,15 +61,11 @@ const weatherCode2Type = (weatherCode) => {
 	return weatherType
 }
 
+//step 2 : 透過useMemo取得並保存weatherCode2Type的結果
+const WeatherIcon = ({ weatherCode, moment }) => {
+	//使用useMemo
+	const weatherType = useMemo(() => weatherCode2Type(weatherCode),[weatherCode])
 
-
-
-//step 5 : 放入 WeatherIcon 輸出
-const WeatherIcon = ({ weatherCode, moment}) => {
-	//假設從 API 取得的天氣代碼是 1
-	//const weatherCode = 1
-	const weatherType = weatherCode2Type(weatherCode)
-	console.log('weatherType', typeof(weatherType))
 	const weatherIcon = weatherIcons[moment][weatherType]
 
 	return (
