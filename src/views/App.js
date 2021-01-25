@@ -243,6 +243,8 @@ function App() {
     rainPossibility,
     isLoading,
     comfortability,
+    //step 5 : 加入weatherCode
+    weatherCode
   } = weatherElement
 
 
@@ -256,8 +258,8 @@ function App() {
             <Temperature>
               {Math.round(temperature)} <Celsius>°C</Celsius>
             </Temperature>
-            {/* step 5 : 使用WeatherIcon 元件 */}
-            <WeatherIcon/>
+            {/* step 6 : 從app.js中帶入weathercode,menet參數*/}
+            <WeatherIcon weatherCode={weatherCode} moment="night"/>
           </CurrentWeather>
           <AirFlow>
             <AirFlowIcon /> {windSpeed} m/h
