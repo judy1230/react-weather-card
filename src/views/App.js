@@ -7,6 +7,8 @@ import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ReactComponent as LoadingIcon } from '../images/loading.svg'
 import { ThemeProvider } from '@emotion/react'
 import dayjs from 'dayjs'
+//step 4 : 載入 WeatherIcon元件
+import WeatherIcon from '../components/WeatherIcon'
 
 const AUTHORIZATION_KEY = 'CWB-6B0FF102-FDE8-40C3-B2CA-CECA1E4E67E5'
 const LOCATION_NAME = '宜蘭'
@@ -209,7 +211,6 @@ function App() {
     comfortability: '',
     isLoading: true
   })
-  //useCallback中可以放入函式, 可以把原本的fetchData做的事放入useCallback的函式中
   const fetchData = useCallback(async () => {
     setWeatherElement((prevState) => ({
       ...prevState,
@@ -255,7 +256,8 @@ function App() {
             <Temperature>
               {Math.round(temperature)} <Celsius>°C</Celsius>
             </Temperature>
-            <DayCloudy />
+            {/* step 5 : 使用WeatherIcon 元件 */}
+            <WeatherIcon/>
           </CurrentWeather>
           <AirFlow>
             <AirFlowIcon /> {windSpeed} m/h
