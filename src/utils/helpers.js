@@ -3,7 +3,6 @@
 import sunriseAndSunsetData from './sunrise-sunset.json';
 
 export const getMoment = (locationName) => {
-	console.log('locationName', locationName)
 	// STEP 1-2：從日出日落時間中找出符合的地區
 	const location = sunriseAndSunsetData.find(
 		(data) => data.locationName === locationName
