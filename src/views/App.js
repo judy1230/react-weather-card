@@ -214,6 +214,12 @@ function App() {
   })
   //step 3 : 取得 moment 值取得 moment 值
   const moment = getMoment('宜蘭縣')
+  //根據 moment 決定要使用亮色或暗色主題
+  useEffect(() => {
+    console.log('moment', moment)
+    setCurrentTheme(moment === 'day' ? 'light' : 'dark')
+  }, [moment])
+
   const fetchData = useCallback(async () => {
     setWeatherElement((prevState) => ({
       ...prevState,
