@@ -4,8 +4,11 @@ import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as RainIcon } from '../images/rain.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ReactComponent as LoadingIcon } from '../images/loading.svg'
+//step 1 : 載入齒輪圖示
+import { ReactComponent as CogIcon } from '../images/cog.svg'
 import dayjs from 'dayjs'
 import WeatherIcon from '../components/WeatherIcon'
+
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -92,22 +95,33 @@ const Refresh = styled.div`
     animation-duration: ${({ isLoading }) => (isLoading ? '1.5s' : '0s')}
   }
 `
+//step 2 : 透過@emotion/styled幫齒輪新增樣式
+const Cog = styled(CogIcon)`
+  position: absolute;
+  top: 30px;
+  right: 15px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+`
 
-	const WeatherCard = ({ weatherElement, moment, fetchData }) => {
-		const {
-			observationTime,
-			locationName,
-			description,
-			windSpeed,
-			temperature,
-			rainPossibility,
-			isLoading,
-			comfortability,
-			weatherCode
-		} = weatherElement
+const WeatherCard = ({ weatherElement, moment, fetchData }) => {
+	const {
+		observationTime,
+		locationName,
+		description,
+		windSpeed,
+		temperature,
+		rainPossibility,
+		isLoading,
+		comfortability,
+		weatherCode
+	} = weatherElement
 
 	return (
-		<WeatherCardWrapper>
+    <WeatherCardWrapper>
+      {/* step 3 : 放入齒輪圖示 */}
+      <Cog/>
 			<Location>{locationName}</Location>
 			<Description>{description} {comfortability}</Description>
 			<CurrentWeather>

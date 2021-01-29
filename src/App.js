@@ -54,8 +54,11 @@ function App() {
     currentWeatherUrl: CURRENT_WEATHER_URL,
     baseUrl: BASE_URL
   })
-  //step 4 : 定義 currentPage 這個state, 預設值是WeatherCard
   const [currentPage, setCurrentPage] = useState('WeatherCard')
+  // step 4 : 把setCurrentPage這個方法 包成 handleCurrentPageChange 函式, 再透過props分別傳入<WeatherCard/> 及<WeatherSetting/>兩個元件中
+  const handleCurrentPageChange = (currentPage) => {
+    setCurrentPage(currentPage)
+  }
 
   const moment = getMoment('宜蘭縣')
   //根據 moment 決定要使用亮色或暗色主題
@@ -67,15 +70,13 @@ function App() {
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
-        {/* step 5 : 利用條件轉譯的方式決定要呈現哪個元件 */}
+        {/* step 5 : 將 handleCurrentPage 透過 props 傳進 WeatherCard 元件中 */}
         {currentPage === 'WeatherCard' && (
-          <WeatherCard weatherElement={weatherElement} moment={moment} fetchData={fetchData} />
+          <WeatherCard weatherElement={weatherElement} moment={moment} fetchData={fetchData} handleCurrentPageChange={ handleCurrentPageChange}/>
         )}
-        {/* step 3 : 放入WeatherSetting元件
-        <WeatherSetting /> */}
-        {/* step 6 : 條件轉譯帶入WeatherSetting元件中 */}
-        {currentPage === 'WeatherSetting' && <WeatherSetting />}
-        
+        {/* step 6 : 將 handleCurrentPage 透過 props 傳進 WeatherSetting 元件中 */}
+        {currentPage === 'WeatherSetting' && <WeatherSetting handleCurrentPageChange={handleCurrentPageChange}/>}
+
       </Container>
     </ThemeProvider>
   )

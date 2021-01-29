@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from '@emotion/styled'
-//step 1 : 先匯入 availableLocations 陣列
 import { availableLocations } from './../utils/helpers'
 
 const WeatherSettingWrapper = styled.div`
@@ -96,7 +95,6 @@ const WeatherSetting = () => {
 		<WeatherSettingWrapper>
 			<Title>設定</Title>
 			<StyledLabel htmlFor="location">地區</StyledLabel>
-			{/* step 2 : 利用 JSX迴圈使用把可以選擇的地區透過迴圈呈現 */}
 			<StyledSelect id="location" name="location">
 				{availableLocations.map(({ cityName }) => (
 					<option value={cityName} key={cityName}>
