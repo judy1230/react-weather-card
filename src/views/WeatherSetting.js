@@ -1,4 +1,3 @@
-//step 1 : 從 react 中載入 useRef
 import React, { useRef } from 'react'
 import styled from '@emotion/styled'
 import { availableLocations } from './../utils/helpers'
@@ -94,16 +93,8 @@ const Save = styled.button`
 `
 
 const WeatherSetting = ({ handleCurrentPageChange }) => {
-  // const [locationName, setLocationName] = useState('宜蘭縣')
-  // const handleChange = (e) => {
-  //   console.log(e.target.value)
-  //   setLocationName(e.target.value)
-  // }
-  //step 2 : 使用 useRef 建立一個 ref, 取名為 inputLocationRef
   const inputLocationRef = useRef(null)
-
   const handleSave = () => {
-    // console.log('locationName', locationName)
     console.log('vale', inputLocationRef.current.value)
   }
 
@@ -111,7 +102,6 @@ const WeatherSetting = ({ handleCurrentPageChange }) => {
 		<WeatherSettingWrapper>
 			<Title>設定</Title>
       <StyledLabel htmlFor="location">地區</StyledLabel>
-      {/* step 3 : 將 useRef 回傳的物件, 指稱為該 input 元素 , 可透過 defaultValue 設定預設值*/}
       <StyledSelect id="location" name="location" ref={inputLocationRef} defaultValue="宜蘭縣">
 				{availableLocations.map(({ cityName }) => (
 					<option value={cityName} key={cityName}>
