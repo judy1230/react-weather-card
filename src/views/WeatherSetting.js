@@ -1,5 +1,5 @@
-//step 1 : 從 react 中載入 useState
-import React, { useState } from 'react'
+//step 1 : 從 react 中載入 useRef
+import React, { useRef } from 'react'
 import styled from '@emotion/styled'
 import { availableLocations } from './../utils/helpers'
 
@@ -94,25 +94,25 @@ const Save = styled.button`
 `
 
 const WeatherSetting = ({ handleCurrentPageChange }) => {
-  //step 2 : 定義 locationName 預設值為空
-  const [locationName, setLocationName] = useState('宜蘭縣')
-  // step 4 : 定義 handleChange 函式
-  const handleChange = (e) => {
-    console.log(e.target.value)
-    // step 5 : 把使用者輸入的內容更新到 React 內的資料狀態
-    setLocationName(e.target.value)
-  }
-  //step 7 : 定義 handleSave 函式
+  // const [locationName, setLocationName] = useState('宜蘭縣')
+  // const handleChange = (e) => {
+  //   console.log(e.target.value)
+  //   setLocationName(e.target.value)
+  // }
+  //step 2 : 使用 useRef 建立一個 ref, 取名為 inputLocationRef
+  const inputLocationRef = useRef(null)
+
   const handleSave = () => {
-    console.log('locationName', locationName)
+    // console.log('locationName', locationName)
+    console.log('vale', inputLocationRef.current.value)
   }
+
 	return (
 		<WeatherSettingWrapper>
 			<Title>設定</Title>
       <StyledLabel htmlFor="location">地區</StyledLabel>
-      {/* step 3 : 使用 onChange 搭配 handleChange 來監聽使用者輸入的資料 */}
-      {/* step 6 : 透過value 可以讓資料與畫面相對應 */}
-      <StyledSelect id="location" name="location" onChange={handleChange} value={ locationName } >
+      {/* step 3 : 將 useRef 回傳的物件, 指稱為該 input 元素 , 可透過 defaultValue 設定預設值*/}
+      <StyledSelect id="location" name="location" ref={inputLocationRef} defaultValue="宜蘭縣">
 				{availableLocations.map(({ cityName }) => (
 					<option value={cityName} key={cityName}>
 						{cityName}
@@ -122,7 +122,6 @@ const WeatherSetting = ({ handleCurrentPageChange }) => {
 
       <ButtonGroup>
         <Back onClick={() => handleCurrentPageChange('WeatherCard')}>返回</Back>
-        {/* step 7 : 點擊 按鈕 觸發 onClick 事件 綁定 handleSave 函式 */}
         <Save onClick={handleSave}>儲存</Save>
 			</ButtonGroup>
 		</WeatherSettingWrapper>
