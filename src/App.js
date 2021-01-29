@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { ThemeProvider } from '@emotion/react'
 import { getMoment } from './utils/helpers'
+import { findLocation } from './utils/helpers'
 import WeatherCard from './views/WeatherCard'
 // step 1 : 匯入useWeatherAPI匯入useWeatherAPI
 import useWeatherAPI from './hooks/useWeatherAPI'
@@ -54,13 +55,14 @@ function App() {
     currentWeatherUrl: CURRENT_WEATHER_URL,
     baseUrl: BASE_URL
   })
-  
+
   const moment = getMoment('宜蘭縣')
   //根據 moment 決定要使用亮色或暗色主題
   useEffect(() => {
     //console.log('moment', moment)
     setCurrentTheme(moment === 'day' ? 'light' : 'dark')
   }, [moment])
+  
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
