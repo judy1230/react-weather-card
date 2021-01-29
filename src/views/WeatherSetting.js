@@ -89,8 +89,8 @@ const Save = styled.button`
     background-color: #40a9f3;
   }
 `;
-
-const WeatherSetting = () => {
+//step 9 : 從 props 取出 handleCurrentPageChange
+const WeatherSetting = ({ handleCurrentPageChange }) => {
 	return (
 		<WeatherSettingWrapper>
 			<Title>設定</Title>
@@ -103,8 +103,9 @@ const WeatherSetting = () => {
 				))}
 			</StyledSelect>
 
-			<ButtonGroup>
-				<Back>返回</Back>
+      <ButtonGroup>
+        {/* step 10 : 當齒輪被點擊時, 透過 handleCurrentPageChange 把 currentPage 改成 WeatherCard */}
+        <Back onClick={() => handleCurrentPageChange('WeatherCard')}>返回</Back>
 				<Save>儲存</Save>
 			</ButtonGroup>
 		</WeatherSettingWrapper>

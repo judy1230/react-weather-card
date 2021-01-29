@@ -104,8 +104,8 @@ const Cog = styled(CogIcon)`
   height: 15px;
   cursor: pointer;
 `
-
-const WeatherCard = ({ weatherElement, moment, fetchData }) => {
+//step 7 : 從 props 中取出 handleCurrentPageChange
+const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChange }) => {
 	const {
 		observationTime,
 		locationName,
@@ -121,7 +121,8 @@ const WeatherCard = ({ weatherElement, moment, fetchData }) => {
 	return (
     <WeatherCardWrapper>
       {/* step 3 : 放入齒輪圖示 */}
-      <Cog/>
+      {/* step 8 : 當齒輪被點擊時, 透過 handleCurrentPageChange 把 currentPage 改成WeatherSetting */}
+      <Cog onClick={() => handleCurrentPageChange('WeatherSetting')}/>
 			<Location>{locationName}</Location>
 			<Description>{description} {comfortability}</Description>
 			<CurrentWeather>
