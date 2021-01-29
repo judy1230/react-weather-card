@@ -95,12 +95,16 @@ const Save = styled.button`
 
 const WeatherSetting = ({ handleCurrentPageChange }) => {
   //step 2 : 定義 locationName 預設值為空
-  const [locationName, setLocationName] = useState('台北市台北市')
+  const [locationName, setLocationName] = useState('宜蘭縣')
   // step 4 : 定義 handleChange 函式
   const handleChange = (e) => {
     console.log(e.target.value)
     // step 5 : 把使用者輸入的內容更新到 React 內的資料狀態
     setLocationName(e.target.value)
+  }
+  //step 7 : 定義 handleSave 函式
+  const handleSave = () => {
+    console.log('locationName', locationName)
   }
 	return (
 		<WeatherSettingWrapper>
@@ -118,7 +122,8 @@ const WeatherSetting = ({ handleCurrentPageChange }) => {
 
       <ButtonGroup>
         <Back onClick={() => handleCurrentPageChange('WeatherCard')}>返回</Back>
-				<Save>儲存</Save>
+        {/* step 7 : 點擊 按鈕 觸發 onClick 事件 綁定 handleSave 函式 */}
+        <Save onClick={handleSave}>儲存</Save>
 			</ButtonGroup>
 		</WeatherSettingWrapper>
 	);
