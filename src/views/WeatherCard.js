@@ -4,7 +4,6 @@ import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
 import { ReactComponent as RainIcon } from '../images/rain.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ReactComponent as LoadingIcon } from '../images/loading.svg'
-//step 1 : 載入齒輪圖示
 import { ReactComponent as CogIcon } from '../images/cog.svg'
 import dayjs from 'dayjs'
 import WeatherIcon from '../components/WeatherIcon'
@@ -95,7 +94,7 @@ const Refresh = styled.div`
     animation-duration: ${({ isLoading }) => (isLoading ? '1.5s' : '0s')}
   }
 `
-//step 2 : 透過@emotion/styled幫齒輪新增樣式
+
 const Cog = styled(CogIcon)`
   position: absolute;
   top: 30px;
@@ -104,7 +103,7 @@ const Cog = styled(CogIcon)`
   height: 15px;
   cursor: pointer;
 `
-//step 7 : 從 props 中取出 handleCurrentPageChange
+
 const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChange }) => {
 	const {
 		observationTime,
@@ -120,8 +119,7 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 
 	return (
     <WeatherCardWrapper>
-      {/* step 3 : 放入齒輪圖示 */}
-      {/* step 8 : 當齒輪被點擊時, 透過 handleCurrentPageChange 把 currentPage 改成WeatherSetting */}
+
       <Cog onClick={() => handleCurrentPageChange('WeatherSetting')}/>
 			<Location>{locationName}</Location>
 			<Description>{description} {comfortability}</Description>

@@ -55,7 +55,6 @@ function App() {
     baseUrl: BASE_URL
   })
   const [currentPage, setCurrentPage] = useState('WeatherCard')
-  // step 4 : 把setCurrentPage這個方法 包成 handleCurrentPageChange 函式, 再透過props分別傳入<WeatherCard/> 及<WeatherSetting/>兩個元件中
   const handleCurrentPageChange = (currentPage) => {
     setCurrentPage(currentPage)
   }
@@ -70,11 +69,9 @@ function App() {
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
-        {/* step 5 : 將 handleCurrentPage 透過 props 傳進 WeatherCard 元件中 */}
         {currentPage === 'WeatherCard' && (
           <WeatherCard weatherElement={weatherElement} moment={moment} fetchData={fetchData} handleCurrentPageChange={ handleCurrentPageChange}/>
         )}
-        {/* step 6 : 將 handleCurrentPage 透過 props 傳進 WeatherSetting 元件中 */}
         {currentPage === 'WeatherSetting' && <WeatherSetting handleCurrentPageChange={handleCurrentPageChange}/>}
 
       </Container>

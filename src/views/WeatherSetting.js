@@ -1,6 +1,9 @@
-import React from 'react'
+//step 1 : 從 react 中載入 useState
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { availableLocations } from './../utils/helpers'
+
+
 
 const WeatherSettingWrapper = styled.div`
   position: relative;
@@ -9,20 +12,20 @@ const WeatherSettingWrapper = styled.div`
   background-color: ${({ theme }) => theme.foregroundColor};
   box-sizing: border-box;
   padding: 20px;
-`;
+`
 
 const Title = styled.div`
   font-size: 28px;
   color: ${({ theme }) => theme.titleColor};
   margin-bottom: 30px;
-`;
+`
 
 const StyledLabel = styled.label`
   display: block;
   font-size: 16px;
   color: ${({ theme }) => theme.textColor};
   margin-bottom: 15px;
-`;
+`
 
 const StyledSelect = styled.select`
   display: block;
@@ -40,7 +43,7 @@ const StyledSelect = styled.select`
   -moz-appearance: none;
   box-shadow: none;
   outline: 0;
-`;
+`
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -74,28 +77,38 @@ const ButtonGroup = styled.div`
       border-style: none;
     }
   }
-`;
+`
 
 const Back = styled.button`
   && {
     color: ${({ theme }) => theme.textColor};
     border-color: ${({ theme }) => theme.textColor};
   }
-`;
+`
 
 const Save = styled.button`
   && {
     color: white;
     background-color: #40a9f3;
   }
-`;
-//step 9 : 從 props 取出 handleCurrentPageChange
+`
+
 const WeatherSetting = ({ handleCurrentPageChange }) => {
+  //step 2 : 定義 locationName 預設值為空
+  const [locationName, setLocationName] = useState('台北市台北市')
+  // step 4 : 定義 handleChange 函式
+  const handleChange = (e) => {
+    console.log(e.target.value)
+    // step 5 : 把使用者輸入的內容更新到 React 內的資料狀態
+    setLocationName(e.target.value)
+  }
 	return (
 		<WeatherSettingWrapper>
 			<Title>設定</Title>
-			<StyledLabel htmlFor="location">地區</StyledLabel>
-			<StyledSelect id="location" name="location">
+      <StyledLabel htmlFor="location">地區</StyledLabel>
+      {/* step 3 : 使用 onChange 搭配 handleChange 來監聽使用者輸入的資料 */}
+      {/* step 6 : 透過value 可以讓資料與畫面相對應 */}
+      <StyledSelect id="location" name="location" onChange={handleChange} value={ locationName } >
 				{availableLocations.map(({ cityName }) => (
 					<option value={cityName} key={cityName}>
 						{cityName}
@@ -104,7 +117,6 @@ const WeatherSetting = ({ handleCurrentPageChange }) => {
 			</StyledSelect>
 
       <ButtonGroup>
-        {/* step 10 : 當齒輪被點擊時, 透過 handleCurrentPageChange 把 currentPage 改成 WeatherCard */}
         <Back onClick={() => handleCurrentPageChange('WeatherCard')}>返回</Back>
 				<Save>儲存</Save>
 			</ButtonGroup>
