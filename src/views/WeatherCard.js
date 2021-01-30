@@ -103,11 +103,12 @@ const Cog = styled(CogIcon)`
   height: 15px;
   cursor: pointer;
 `
-
+//step 8 : 透過 props取得 cityName
 const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChange }) => {
+  console.log('weatherElement', weatherElement)
 	const {
 		observationTime,
-		locationName,
+    locationName,
 		description,
 		windSpeed,
 		temperature,
@@ -120,7 +121,8 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 	return (
     <WeatherCardWrapper>
 
-      <Cog onClick={() => handleCurrentPageChange('WeatherSetting')}/>
+      <Cog onClick={() => handleCurrentPageChange('WeatherSetting')} />
+      {/* step 8-1 : 在 JSX 中顯示 cityName */}
 			<Location>{locationName}</Location>
 			<Description>{description} {comfortability}</Description>
 			<CurrentWeather>

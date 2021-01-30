@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from '@emotion/styled'
 import { availableLocations } from './../utils/helpers'
 
@@ -91,18 +91,25 @@ const Save = styled.button`
     background-color: #40a9f3;
   }
 `
-
-const WeatherSetting = ({ handleCurrentPageChange }) => {
+//step 10 : 從 props 取出從 app.js 傳入的 cityName, handleCurrentCityChange帶入
+const WeatherSetting = ({ cityName, handleCurrentCityChange, handleCurrentPageChange }) => {
+  const [locationName, setLocationName ] = useState(cityName)
   const inputLocationRef = useRef(null)
+  const handleChange = (e) => {
+    setLocationName(e.target.value);
+  }
   const handleSave = () => {
-    console.log('vale', inputLocationRef.current.value)
+    console.log(`儲存的地區資訊為：${locationName}`)
+    // step 10-1 : 更新元件中的 currentCity , 切換回 <WeatherCard/> 中
+    handleCurrentCityChange(locationName)
+    handleCurrentPageChange('WeatherCard')
   }
 
 	return (
 		<WeatherSettingWrapper>
 			<Title>設定</Title>
       <StyledLabel htmlFor="location">地區</StyledLabel>
-      <StyledSelect id="location" name="location" ref={inputLocationRef} defaultValue="宜蘭縣">
+      <StyledSelect id="location" name="location" ref={inputLocationRef} onChange={handleChange} value={locationName}>
 				{availableLocations.map(({ cityName }) => (
 					<option value={cityName} key={cityName}>
 						{cityName}
