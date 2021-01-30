@@ -43,9 +43,12 @@ const Container = styled.div`
 
 
 function App() {
+  //從 localStorage 取出先前保存的地區, 若沒有保存過則給予預設值
+  const storageCity = localStorage.getItem('cityName') || '臺北市'
   const [currentTheme, setCurrentTheme] = useState('light')
   const [currentPage, setCurrentPage] = useState('WeatherCard')
-  const [currentCity, setCurrentCity] = useState('臺北市')
+  //預設地區改為 storageCity
+  const [currentCity, setCurrentCity] = useState(storageCity)
 
   const handleCurrentPageChange = (currentPage) => {
     setCurrentPage(currentPage)

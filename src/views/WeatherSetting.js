@@ -100,6 +100,8 @@ const WeatherSetting = ({ cityName, handleCurrentCityChange, handleCurrentPageCh
   const handleSave = () => {
     console.log(`儲存的地區資訊為：${locationName}`)
     handleCurrentCityChange(locationName)
+    //點擊時順便將使用者選擇的縣市名稱存入localStorage中
+    localStorage.setItem('cityName',locationName)
     handleCurrentPageChange('WeatherCard')
   }
 
