@@ -91,7 +91,6 @@ const Save = styled.button`
     background-color: #40a9f3;
   }
 `
-//step 10 : 從 props 取出從 app.js 傳入的 cityName, handleCurrentCityChange帶入
 const WeatherSetting = ({ cityName, handleCurrentCityChange, handleCurrentPageChange }) => {
   const [locationName, setLocationName ] = useState(cityName)
   const inputLocationRef = useRef(null)
@@ -100,7 +99,6 @@ const WeatherSetting = ({ cityName, handleCurrentCityChange, handleCurrentPageCh
   }
   const handleSave = () => {
     console.log(`儲存的地區資訊為：${locationName}`)
-    // step 10-1 : 更新元件中的 currentCity , 切換回 <WeatherCard/> 中
     handleCurrentCityChange(locationName)
     handleCurrentPageChange('WeatherCard')
   }

@@ -1,4 +1,3 @@
-//step 1 : 載入useMemo
 import React, { useMemo } from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as DayCloudy } from '../images/day-cloudy.svg'
@@ -61,11 +60,8 @@ const weatherCode2Type = (weatherCode) => {
 	return weatherType
 }
 
-//step 2 : 透過useMemo取得並保存weatherCode2Type的結果
 const WeatherIcon = ({ weatherCode, moment }) => {
-	//使用useMemo
 	const weatherType = useMemo(() => weatherCode2Type(weatherCode),[weatherCode])
-
 	const weatherIcon = weatherIcons[moment][weatherType]
 
 	return (
