@@ -1,0 +1,136 @@
+
+@keyframes crescendo {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes rain {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(60px);
+    opacity: 0;
+  }
+}
+
+@keyframes moon {
+  0% {
+    transform: translateX(-15px) translateY(15px);
+    box-shadow: 15px -15px 0 0 #f9f871;
+  }
+  100% {
+    transform: translateX(30px) translateY(-30px);
+    box-shadow: -30px 30px 0 0 #f9f871;
+  }
+}
+@keyframes floating {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
+@keyframes sparking {
+  0% {
+    opacity: 0.2;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+svg .sun {
+  fill: #FFD633;
+  stroke-width: 30px;
+  stroke: rgba(255, 214, 51, 0.5);
+  stroke-dasharray: 10px;
+  transform: rotate(1turn) 10s;
+}
+/* svg.sun {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle r='25' cx='0' cy='0'");
+	fill: #FFD633;
+	stroke-width: 30px;
+  stroke: rgba(255, 214, 51, 0.5);
+  stroke-dasharray: 8px;
+  transform: rotate(1turn) 10s;
+} */
+svg .cloud {
+	fill: #ccc;
+	animation: floating 10s infinite linear;
+}
+svg .thunder {
+  fill: #ffdd40;
+  stroke: #ffdd40;
+  stroke-width: 1;
+  animation: crescendo 2s alternate infinite;
+}
+svg .rain {
+  fill: #91addd;
+  stroke: #91addd;
+  stroke-width: 1;
+  animation: rain 1s infinite linear;
+  transition-duration: 0.5s;
+}
+svg .rain2 {
+  animation-delay: -0.4s;
+}
+svg .rain3 {
+  animation-delay: -0.7s;
+}
+
+
+
+
+
+
+svg .moon {
+  fill: #f9f871;
+  box-shadow: 12px 12px 0 0 #f9f871;
+  animation: moon 50s infinite;
+  transition-duration: 0.5s;
+}
+svg .moon-shield {
+  fill: #222;
+}
+svg .moon-less {
+  fill: rgba(249, 248, 113, 0.1);
+}
+svg .star {
+  fill: #e5f7f4;
+  animation: sparking 2s alternate infinite;
+}
+svg .cloud {
+  fill: #f2f9fe;
+}
+svg .cloud-grey {
+  fill: #ccc;
+}
+svg .thunder {
+  fill: #ffdd40;
+  stroke: #ffdd40;
+  stroke-width: 1;
+  animation: crescendo 2s alternate infinite;
+}
+
+
+

@@ -7,6 +7,7 @@ import { ReactComponent as DayCloudyFog } from '../images/day-cloudy-fog.svg'
 import { ReactComponent as DayFog } from '../images/day-fog.svg'
 import { ReactComponent as DayPartiallyClearWithRain } from '../images/day-partially-clear-with-rain.svg'
 import { ReactComponent as DaySnowing } from '../images/day-snowing.svg'
+import { ReactComponent as DayRaining } from '../images/day-rain.svg'
 import { ReactComponent as NightClear } from '../images/night-clear.svg'
 import { ReactComponent as NightCloudy } from '../images/night-cloudy.svg'
 import { ReactComponent as NightCloudyFog } from '../images/night-cloudy-fog.svg'
@@ -41,6 +42,7 @@ const weatherIcons = {
 		isFog: <DayFog />,
 		isPartiallyClearWithRain: <DayPartiallyClearWithRain />,
 		isSnowing: <DaySnowing />,
+		isRaining: <DayRaining />
 	},
 	night: {
 		isThunderstorm: <NightThunderstorm />,
@@ -63,6 +65,7 @@ const weatherCode2Type = (weatherCode) => {
 const WeatherIcon = ({ weatherCode, moment }) => {
 	const weatherType = useMemo(() => weatherCode2Type(weatherCode),[weatherCode])
 	const weatherIcon = weatherIcons[moment][weatherType]
+
 
 	return (
 		<IconContainer>

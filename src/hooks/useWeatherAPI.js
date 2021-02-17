@@ -42,15 +42,30 @@ const fetchWeatherForecast = ({ authorizationKey, cityName }) => {
 				},
 				{}
 			)
+			console.log('weatherElements', weatherElements)
+			const predicationData = locationData.weatherElement.reduce(
+				(neededElements, item) => {
+					if (['MaxT'].includes(item.elementName)) {
+						neededElements[item.elementName] = item.time
+					}
+					return neededElements
+				},
+				{}
+			)
+			const predicationTemps = predicationData.MaxT.flatMap(item => item.parameter.parameterName)
+
+			console.log('predicationTemps', predicationTemps)
 
 			return {
 				description: weatherElements.Wx.parameterName,
 				weatherCode: weatherElements.Wx.parameterValue,
 				rainPossibility: weatherElements.PoP.parameterName,
 				comfortability: weatherElements.CI.parameterName,
+				predicationTemps: predicationTemps
 			}
 		})
 }
+
 
 const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locationName, cityName, authorizationKey }) => {
 	const [weatherElement, setWeatherElement] = useState({
@@ -62,7 +77,8 @@ const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locatio
 		weatherCode: 0,
 		rainPossibility: 0,
 		comfortability: '',
-		isLoading: true
+		isLoading: true,
+		predicationTemps:[]
 	})
 	const fetchData = useCallback(async () => {
 		setWeatherElement((prevState) => ({

@@ -6,6 +6,7 @@ import WeatherCard from './views/WeatherCard'
 import useWeatherAPI from './hooks/useWeatherAPI'
 import WeatherSetting from './views/WeatherSetting'
 
+
 const AUTHORIZATION_KEY = 'CWB-6B0FF102-FDE8-40C3-B2CA-CECA1E4E67E5'
 const BASE_URL = 'opendata.cwb.gov.tw/api'
 const CURRENT_WEATHER_URL ='v1/rest/datastore/O-A0003-001?'
@@ -21,6 +22,7 @@ const theme = {
     titleColor: '#212121',
     temperatureColor: '#757575',
     textColor: '#828282',
+
   },
   dark: {
     backgroundColor: '#1F2022',
@@ -42,12 +44,11 @@ const Container = styled.div`
 `
 
 
+
 function App() {
-  //從 localStorage 取出先前保存的地區, 若沒有保存過則給予預設值
   const storageCity = localStorage.getItem('cityName') || '臺北市'
-  const [currentTheme, setCurrentTheme] = useState('light')
+  const [currentTheme, setCurrentTheme] = useState('dark')
   const [currentPage, setCurrentPage] = useState('WeatherCard')
-  //預設地區改為 storageCity
   const [currentCity, setCurrentCity] = useState(storageCity)
 
   const handleCurrentPageChange = (currentPage) => {
@@ -84,6 +85,7 @@ function App() {
             fetchData={fetchData}
             cityName={cityName}
             handleCurrentPageChange={handleCurrentPageChange} />
+
         )}
         {currentPage === 'WeatherSetting' && <WeatherSetting
           cityName={cityName}

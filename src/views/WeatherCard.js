@@ -7,7 +7,7 @@ import { ReactComponent as LoadingIcon } from '../images/loading.svg'
 import { ReactComponent as CogIcon } from '../images/cog.svg'
 import dayjs from 'dayjs'
 import WeatherIcon from '../components/WeatherIcon'
-
+import TemperaturePrediction from '../components/TemperaturePrediction'
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -20,7 +20,8 @@ const WeatherCardWrapper = styled.div`
 const Location = styled.div`
   ${props => console.log(props)}
   font-size: 28px;
-  color: ${props => props.theme === 'dark' ? '#dadada' : '#212121'};
+  /* color: ${props => props.theme === 'dark' ? '#dadada' : '#212121'}; */
+  color: ${({ theme }) => theme.titleColor};
   margin-bottom: 20px;
 `
 const Description = styled.div`
@@ -104,8 +105,8 @@ const Cog = styled(CogIcon)`
   cursor: pointer;
 `
 
+
 const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChange }) => {
-  console.log('weatherElement', weatherElement)
 	const {
 		observationTime,
     locationName,
@@ -115,13 +116,14 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 		rainPossibility,
 		isLoading,
 		comfortability,
-		weatherCode
+    weatherCode,
+    predicationTemps
 	} = weatherElement
 
 	return (
     <WeatherCardWrapper>
-
       <Cog onClick={() => handleCurrentPageChange('WeatherSetting')} />
+      <TemperaturePrediction predicationTemps={predicationTemps} moment={moment}/>
 			<Location>{locationName}</Location>
 			<Description>{description} {comfortability}</Description>
 			<CurrentWeather>
@@ -143,7 +145,8 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 					minute: 'numeric',
 				}).format(dayjs(observationTime))} {' '}
 				{isLoading ? <LoadingIcon /> : <RefreshIcon />}
-			</Refresh>
+      </Refresh>
+
 		</WeatherCardWrapper>
 	)
 }

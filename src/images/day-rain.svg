@@ -1,8 +1,5 @@
-<svg viewbox="-50 -60 100 100">
+<svg viewbox="-50 -50 100 100">
   <g>
-    <circle class="sun" cx="-15" cy="-25" r="15" transform-origin="-15 -25">
-      <animateTransform attributeName="transform" type="rotate" dur="10s" values="0;360" repeatCount="indefinite"></animateTransform>
-    </circle>
     <circle class="cloud" cx="-15" cy="0" r="20">
       <animate attributeName="cx" dur="3s" values="-15;-12;-15" repeatCount="indefinite"></animate>
     </circle>

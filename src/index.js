@@ -5,6 +5,8 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import 'normalize.css'
+import './css/weatherIcons.css'
+import './css/TemperaturePrediction.css'
 
 ReactDOM.render(
   <React.StrictMode>
