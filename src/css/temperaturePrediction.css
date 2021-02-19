@@ -3,7 +3,7 @@
   width: 90%;
 	transition-duration: 0.5s;
   transform: translateX(8px);
-  height: 120px;
+  /* width: 140px; */
   align-items: center;
   position: absolute;
   left: 70px;
@@ -27,8 +27,8 @@
   transition: 0.5s 0.5s;
   transform: translateX(-8px) translateY(15px);
   font-size: 10px;
-
 }
+
 
 .temsvg:hover circle{
   opacity: 0.8;

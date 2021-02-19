@@ -109,6 +109,10 @@ svg .moon {
   animation: moon 50s infinite;
   transition-duration: 0.5s;
 }
+svg .moon-stick {
+  fill: #f9f871;
+  box-shadow: 2px, 2px, 5px, 5px, rgba(255, 221, 64, 0.4);
+}
 svg .moon-shield {
   fill: #222;
 }

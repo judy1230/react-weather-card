@@ -32,6 +32,7 @@ const theme = {
     titleColor: '#f9f9fa',
     temperatureColor: '#dddddd',
     textColor: '#cccccc',
+    background: 'linear-gradient(20deg,#19283D 0%, #1D678F 95%)'
   },
 };
 

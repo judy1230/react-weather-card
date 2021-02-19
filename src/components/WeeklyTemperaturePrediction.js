@@ -3,19 +3,23 @@ import styled from '@emotion/styled'
 import WeeklyWeatherIcons from './WeeklyWeatherIcons'
 
 const Container= styled.div`
-	display: flex;
-	align-content:center;
-	justify-content: center;
-	padding: 20px 0;
+	height: 100%;
+  background-color: #f3f3f3;
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+	opacity: 0;
+	transition-duration: 1s;
+
 `
 
 const DayWeather = styled.div`
 	padding: 2px;
-	margin: 20px 5px 0 10px;
+	margin: 10px 5px 0 10px;
   width: calc(100% / 7 - 5px);
   box-sizing: border-box;
   text-align: center;
-  /* opacity: 0; */
   top: 20px;
   transition: 0.5s;
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2), 0px 5px 5px -5px rgba(0, 0, 0, 0.3);
@@ -23,6 +27,19 @@ const DayWeather = styled.div`
 	svg {
 		width: 100%;
   	max-width: 30px;
+	}
+	svg .sun {
+		fill: #FFD633;
+		stroke-width: 30px;
+		stroke: rgba(255, 214, 51, 0.5);
+		stroke-dasharray: 5px;
+	}
+  svg .rain {
+		stroke: #4DACFF;
+		stroke-width: 5px;
+	}
+ svg .cloud {
+		fill: #ccc;
 	}
 	h3 {
 		text-align: center;
@@ -32,18 +49,20 @@ const DayWeather = styled.div`
 		letter-spacing: 1px;
 		margin: 0px;
 		padding: 0px;
-}
+	}
+
 
 `
 
 
 const WeeklyTemperaturePrediction = ({ weatherCodes, weeklyPoP12h,
 	weeklyT, moment }) => {
+	console.log('weatherCodes', weatherCodes)
+	weatherCodes = weatherCodes.filter((item, index) => index % 2 == 0)
+	weeklyPoP12h = weeklyPoP12h.filter((item, index) => index % 2 == 0)
+	weeklyT = weeklyT.filter((item, index) => index % 2 == 0)
+	console.log('weatherCodes', weatherCodes)
 
-	weatherCodes = weatherCodes.filter((item, index) => index % 2 !== 0)
-	weeklyPoP12h = weeklyPoP12h.filter((item, index) => index % 2 !== 0)
-	weeklyT = weeklyT.filter((item, index) => index % 2 !== 0)
-	
 	let indexs = [0, 1, 2, 3, 4, 5, 6]
 	let weeks = ["MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN"]
 
@@ -57,7 +76,7 @@ const WeeklyTemperaturePrediction = ({ weatherCodes, weeklyPoP12h,
 	);
 
 	return (
-		<Container>
+		<Container className="box">
 			{dayWeather}
 		</Container>
 

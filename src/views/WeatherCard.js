@@ -13,11 +13,33 @@ import WeeklyTemperaturePrediction from '../components/WeeklyTemperaturePredicti
 const WeatherCardWrapper = styled.div`
   position: relative;
   min-width: 360px;
+  width: 50%;
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.backgroundColor};
   box-sizing: border-box;
   padding: 30px 15px;
+  border-radius: 5px;
+  &:hover .bottom {
+    height: 100px;
+    .box{
+      opacity: 1;
+    }
+  }
+  &:hover .refresh {
+    opacity: 0;
+  }
 `
+const Top = styled.div`
+  padding: 20px;
+  background: ${({ theme }) => theme.background};
+  background-size: 100% 300%;
+  border-radius: 5px;
+`
+const Bottom = styled.div`
+  height: 10px;
+  transition-duration: 1s;
+`
+
 const Location = styled.div`
   ${props => console.log(props)}
   font-size: 28px;
@@ -81,7 +103,7 @@ const Refresh = styled.div`
   }
   position: absolute;
   right: 15px;
-  bottom: 15px;
+  bottom: 50px;
   font-size: 12px;
   display: inline-flex;
   align-items: flex-end;
@@ -103,6 +125,7 @@ const Cog = styled(CogIcon)`
   width: 15px;
   height: 15px;
   cursor: pointer;
+  padding: 20px;
 `
 
 
@@ -125,31 +148,36 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
   console.log('weatherCodes', weatherCodes)
 	return (
     <WeatherCardWrapper>
-      <Cog onClick={() => handleCurrentPageChange('WeatherSetting')} />
-      <TemperaturePrediction predicationTemps={predicationTemps} moment={moment}/>
-			<Location>{locationName}</Location>
-			<Description>{description} {comfortability}</Description>
-			<CurrentWeather>
-				<Temperature>
-					{Math.round(temperature)} <Celsius>°C</Celsius>
-				</Temperature>
-        <WeatherIcon weatherCode={weatherCodes[0]} moment={moment} />
-			</CurrentWeather>
-			<AirFlow>
-				<AirFlowIcon /> {windSpeed} m/h
+      <Top>
+        <Cog onClick={() => handleCurrentPageChange('WeatherSetting')} />
+        <TemperaturePrediction predicationTemps={predicationTemps} moment={moment} />
+        <Location>{locationName}</Location>
+        <Description>{description} {comfortability}</Description>
+        <CurrentWeather>
+          <Temperature>
+            {Math.round(temperature)} <Celsius>°C</Celsius>
+          </Temperature>
+          <WeatherIcon weatherCode={weatherCodes[0]} moment={moment} />
+        </CurrentWeather>
+        <AirFlow>
+          <AirFlowIcon /> {windSpeed} m/h
           </AirFlow>
-			<Rain>
-				<RainIcon /> {rainPossibility}%
+        <Rain>
+          <RainIcon /> {rainPossibility}%
           </Rain>
-			<Refresh onClick={fetchData}
-				isLoading={isLoading}>
-				最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
-					hour: 'numeric',
-					minute: 'numeric',
-				}).format(dayjs(observationTime))} {' '}
-				{isLoading ? <LoadingIcon /> : <RefreshIcon />}
-      </Refresh>
-      <WeeklyTemperaturePrediction weatherCodes={weatherCodes} weeklyPoP12h={weeklyPoP12h} weeklyT={weeklyT} moment={moment} />
+        <Refresh className="refresh" onClick={fetchData}
+          isLoading={isLoading}>
+          最後觀測時間：{new Intl.DateTimeFormat('zh-TW', {
+            hour: 'numeric',
+            minute: 'numeric',
+          }).format(dayjs(observationTime))} {' '}
+          {isLoading ? <LoadingIcon /> : <RefreshIcon />}
+        </Refresh>
+      </Top>
+      <Bottom className="bottom">
+        <WeeklyTemperaturePrediction weatherCodes={weatherCodes} weeklyPoP12h={weeklyPoP12h} weeklyT={weeklyT} moment={moment} />
+      </Bottom>
+
 
 		</WeatherCardWrapper>
 	)
