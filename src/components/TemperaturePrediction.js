@@ -34,8 +34,6 @@ const TemperaturePredictionWrapper = styled.div`
 `
 
 
-
-
 const TemperaturePrediction = ({ predicationTemps, moment }) => {
 
 	const [currentTheme, setCurrentTheme] = useState('dark')
@@ -63,7 +61,7 @@ const TemperaturePrediction = ({ predicationTemps, moment }) => {
 					<circle cx={dx1} cy={dy1} r="3"></circle>
 					<text x={dx2} y={dy2}>{predicationTemps[2]}°C</text>
 					<circle cx={dx2} cy={dy2} r="3"></circle>
-					<polyline points={points}></polyline>
+					<polyline points={points} stroke={theme[currentTheme].titleColor}></polyline>
 				</svg>
 			</TemperaturePredictionWrapper>
 		</ThemeProvider>

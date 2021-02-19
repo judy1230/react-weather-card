@@ -8,6 +8,7 @@ import { ReactComponent as CogIcon } from '../images/cog.svg'
 import dayjs from 'dayjs'
 import WeatherIcon from '../components/WeatherIcon'
 import TemperaturePrediction from '../components/TemperaturePrediction'
+import WeeklyTemperaturePrediction from '../components/WeeklyTemperaturePrediction'
 
 const WeatherCardWrapper = styled.div`
   position: relative;
@@ -20,7 +21,6 @@ const WeatherCardWrapper = styled.div`
 const Location = styled.div`
   ${props => console.log(props)}
   font-size: 28px;
-  /* color: ${props => props.theme === 'dark' ? '#dadada' : '#212121'}; */
   color: ${({ theme }) => theme.titleColor};
   margin-bottom: 20px;
 `
@@ -117,9 +117,12 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 		isLoading,
 		comfortability,
     weatherCode,
-    predicationTemps
+    predicationTemps,
+    weatherCodes,
+    weeklyPoP12h,
+    weeklyT,
 	} = weatherElement
-
+  console.log('weatherCodes', weatherCodes)
 	return (
     <WeatherCardWrapper>
       <Cog onClick={() => handleCurrentPageChange('WeatherSetting')} />
@@ -130,7 +133,7 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 				<Temperature>
 					{Math.round(temperature)} <Celsius>°C</Celsius>
 				</Temperature>
-				<WeatherIcon weatherCode={weatherCode} moment={moment} />
+        <WeatherIcon weatherCode={weatherCodes[0]} moment={moment} />
 			</CurrentWeather>
 			<AirFlow>
 				<AirFlowIcon /> {windSpeed} m/h
@@ -146,6 +149,7 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 				}).format(dayjs(observationTime))} {' '}
 				{isLoading ? <LoadingIcon /> : <RefreshIcon />}
       </Refresh>
+      <WeeklyTemperaturePrediction weatherCodes={weatherCodes} weeklyPoP12h={weeklyPoP12h} weeklyT={weeklyT} moment={moment} />
 
 		</WeatherCardWrapper>
 	)

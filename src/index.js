@@ -6,7 +6,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import 'normalize.css'
 import './css/weatherIcons.css'
-import './css/TemperaturePrediction.css'
+import './css/temperaturePrediction.css'
 
 ReactDOM.render(
   <React.StrictMode>

@@ -42,7 +42,6 @@ const fetchWeatherForecast = ({ authorizationKey, cityName }) => {
 				},
 				{}
 			)
-			console.log('weatherElements', weatherElements)
 			const predicationData = locationData.weatherElement.reduce(
 				(neededElements, item) => {
 					if (['MaxT'].includes(item.elementName)) {
@@ -54,8 +53,6 @@ const fetchWeatherForecast = ({ authorizationKey, cityName }) => {
 			)
 			const predicationTemps = predicationData.MaxT.flatMap(item => item.parameter.parameterName)
 
-			console.log('predicationTemps', predicationTemps)
-
 			return {
 				description: weatherElements.Wx.parameterName,
 				weatherCode: weatherElements.Wx.parameterValue,
@@ -66,6 +63,37 @@ const fetchWeatherForecast = ({ authorizationKey, cityName }) => {
 		})
 }
 
+const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
+	return fetch(
+		`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-003?Authorization=${authorizationKey}`
+	)
+		.then((response) => response.json())
+		.then((data) => {
+			let cityName = '宜蘭市'
+			const locationData = data.records.locations[0].location.filter(city => city.locationName == cityName)
+			const weeklyWeather = locationData[0].weatherElement.reduce(
+				(neededElements, item) => {
+					if (['Wx', 'PoP12h', 'T'].includes(item.elementName)) {
+						neededElements[item.elementName] = item.time;
+					}
+					return neededElements
+				},
+				{}
+			)
+			console.log('weeklyWeather', weeklyWeather)
+			const WeatherCodes = weeklyWeather.Wx.flatMap(item => item.elementValue[1].value)
+			const weeklyPoP12h = weeklyWeather.PoP12h.flatMap(item => item.elementValue[0].value)
+			const weeklyT = weeklyWeather.T.flatMap(item => item.elementValue[0].value)
+
+
+
+			return {
+				weatherCodes: WeatherCodes,
+				weeklyPoP12h: weeklyPoP12h,
+				weeklyT: weeklyT,
+			}
+		})
+}
 
 const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locationName, cityName, authorizationKey }) => {
 	const [weatherElement, setWeatherElement] = useState({
@@ -74,28 +102,34 @@ const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locatio
 		temperature: 0,
 		windSpeed: 0,
 		description: '',
-		weatherCode: 0,
+		// weatherCode: 0,
 		rainPossibility: 0,
 		comfortability: '',
 		isLoading: true,
-		predicationTemps:[]
+		predicationTemps: [],
+		weatherCodes: [],
+		weeklyPoP12h: [],
+		weeklyT:[]
 	})
 	const fetchData = useCallback(async () => {
 		setWeatherElement((prevState) => ({
 			...prevState,
 			isLoading: true,
 		}))
-		const [currentWeather, weatherForecast] = await Promise.all([
+		const [currentWeather, weatherForecast, weeklyWeather ] = await Promise.all([
 			fetchCurrentWeather({ baseUrl, currentWeatherUrl, authorizationKey, locationName}),
-			fetchWeatherForecast({ baseUrl,forecastWeatherUrl, authorizationKey, cityName }),
+			fetchWeatherForecast({ baseUrl, forecastWeatherUrl, authorizationKey, cityName }),
+			fetchWeeklyWeather({  authorizationKey, cityName }),
 		])
 
 		setWeatherElement({
 			...currentWeather,
 			...weatherForecast,
+			...weeklyWeather,
 			isLoading: false,
 		})
 	}, [authorizationKey, locationName, cityName])
+
 	useEffect(() => {
 		fetchData()
 	}, [fetchData])
