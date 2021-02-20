@@ -13,7 +13,6 @@ import WeeklyTemperaturePrediction from '../components/WeeklyTemperaturePredicti
 const WeatherCardWrapper = styled.div`
   position: relative;
   min-width: 360px;
-  width: 50%;
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.backgroundColor};
   box-sizing: border-box;
@@ -21,8 +20,13 @@ const WeatherCardWrapper = styled.div`
   border-radius: 5px;
   &:hover .bottom {
     height: 100px;
+    opacity: 1;
     .box{
       opacity: 1;
+      .dayWeather{
+        opacity: 1;
+        top: 0px
+      }
     }
   }
   &:hover .refresh {
@@ -38,6 +42,12 @@ const Top = styled.div`
 const Bottom = styled.div`
   height: 10px;
   transition-duration: 1s;
+  background: ${({ theme }) => theme.background};
+  border-radius: 0px 0px 5px 5px;
+  display: flex;
+  justify-content: center;
+	opacity: 0;
+	transition-duration: 1s;
 `
 
 const Location = styled.div`

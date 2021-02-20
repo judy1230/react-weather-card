@@ -19,7 +19,8 @@ import { ReactComponent as NightThunderstorm } from '../images/night-thunderstor
 const IconContainer = styled.div`
 	flex-basis: 30%;
 	svg{
-		max-height: 110px;
+		width: 160px;
+		max-width: 200px;
 	}
 `
 const weatherTypes = {

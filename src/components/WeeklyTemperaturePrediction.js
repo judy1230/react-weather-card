@@ -4,14 +4,36 @@ import WeeklyWeatherIcons from './WeeklyWeatherIcons'
 
 const Container= styled.div`
 	height: 100%;
-  background-color: #f3f3f3;
-  border-radius: 0px 0px 5px 5px;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
-	opacity: 0;
 	transition-duration: 1s;
+	opacity: 0;
+	.dayWeather:nth-child(1) {
+    transition-delay: 0.2s;
+  }
+	.dayWeather:nth-child(2) {
+		transition-delay: 0.3s;
+	}
 
+	.dayWeather:nth-child(3) {
+		transition-delay: 0.4s;
+	}
+
+	.dayWeather:nth-child(4) {
+		transition-delay: 0.5s;
+	}
+
+	.dayWeather:nth-child(5) {
+		transition-delay: 0.6s;
+	}
+
+	.dayWeather:nth-child(6) {
+		transition-delay: 0.7s;
+	}
+
+	.dayWeather:nth-child(7) {
+		transition-delay: 0.8s;
+	}
 `
 
 const DayWeather = styled.div`
@@ -24,6 +46,7 @@ const DayWeather = styled.div`
   transition: 0.5s;
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2), 0px 5px 5px -5px rgba(0, 0, 0, 0.3);
 	border-radius: 5px;
+	opacity: 0;
 	svg {
 		width: 100%;
   	max-width: 30px;
@@ -52,6 +75,8 @@ const DayWeather = styled.div`
 	}
 
 
+
+
 `
 
 
@@ -67,7 +92,7 @@ const WeeklyTemperaturePrediction = ({ weatherCodes, weeklyPoP12h,
 	let weeks = ["MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN"]
 
 	const dayWeather = indexs.map((index) =>
-		<DayWeather>
+		<DayWeather className="dayWeather">
 			<h3>{ weeks[index]}</h3>
 			<WeeklyWeatherIcons weatherCode={weatherCodes[index]} moment={moment} />
 			<h3>{weeklyT[index]}°C</h3>
