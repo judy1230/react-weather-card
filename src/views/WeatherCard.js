@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
-import { ReactComponent as RainIcon } from '../images/rain.svg'
+import { ReactComponent as RainIcon } from '../images/rainability1.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ReactComponent as LoadingIcon } from '../images/loading.svg'
 import { ReactComponent as CogIcon } from '../images/cog.svg'
@@ -16,7 +16,7 @@ const WeatherCardWrapper = styled.div`
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.backgroundColor};
   box-sizing: border-box;
-  padding: 30px 15px;
+  padding: 15px;
   border-radius: 5px;
   &:hover .bottom {
     height: 100px;
@@ -48,6 +48,11 @@ const Bottom = styled.div`
   justify-content: center;
 	opacity: 0;
 	transition-duration: 1s;
+  .box{
+    .dayWeather h3{
+      color: ${({ theme }) => theme.titleColor};
+    }
+  }
 `
 
 const Location = styled.div`
@@ -59,13 +64,13 @@ const Location = styled.div`
 const Description = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.textColor};
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 `
 const CurrentWeather = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 `
 const Temperature = styled.div`
   color: ${({ theme }) => theme.temperatureColor};
@@ -84,22 +89,51 @@ const AirFlow = styled.div`
   font-weight: 300;
   color: ${({ theme }) => theme.textColor};
   margin-bottom: 20px;
+  @keyframes floating {
+    0% {
+      transform: rotate(-25deg);
+    }
+    50% {
+      transform: rotate(-20deg);
+    }
+    100% {
+      transform: rotate(-25deg);
+    }
+  }
   svg {
     width: 25px;
     height: auto;
     margin-right: 30px;
   }
+  svg .flag {
+    animation: floating 1s alternate infinite;
+  }
 `
 const Rain = styled.div`
+  @keyframes rain {
+    0% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: translateY(15px);
+      opacity: 0;
+    }
+  }
   display: flex;
   align-items: center;
   font-size: 16x;
   font-weight: 300;
   color: ${({ theme }) => theme.textColor};
   svg {
-    width: 25px;
+    width: 30px;
     height: auto;
     margin-right: 30px;
+    animation: rain 2s infinite linear;
+    fill:${({ theme }) => theme.textColor}
   }
 `
 const Refresh = styled.div`
@@ -136,6 +170,7 @@ const Cog = styled(CogIcon)`
   height: 15px;
   cursor: pointer;
   padding: 20px;
+  z-index: 11;
 `
 
 

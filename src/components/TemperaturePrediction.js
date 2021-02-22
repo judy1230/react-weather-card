@@ -43,8 +43,8 @@ const TemperaturePrediction = ({ predicationTemps, moment }) => {
 		}, [moment])
 
 	let by = "60"
-	let dy1 = `${(parseInt(by)+10*(predicationTemps[0] - predicationTemps[1]))}`
-	let dy2 = `${(parseInt(by)+10*(predicationTemps[0] - predicationTemps[2]))}`
+	let dy1 = `${(parseInt(by)+2*(predicationTemps[0] - predicationTemps[1]))}`
+	let dy2 = `${(parseInt(by)+2*(predicationTemps[0] - predicationTemps[2]))}`
 	let bx = "60"
 	let dx1 = `${2 * parseInt(bx)}`
 	let dx2 = `${3 * parseInt(bx)}`
