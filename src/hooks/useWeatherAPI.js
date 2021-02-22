@@ -112,7 +112,6 @@ const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locatio
 		temperature: 0,
 		windSpeed: 0,
 		description: '',
-		// weatherCode: 0,
 		rainPossibility: 0,
 		comfortability: '',
 		isLoading: true,

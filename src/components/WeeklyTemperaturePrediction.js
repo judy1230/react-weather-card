@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import styled from '@emotion/styled'
-import WeeklyWeatherIcons from './WeeklyWeatherIcons'
+import WeeklyWeatherIcons from './WeatherIcon'
 
 const Container= styled.div`
 	height: 100%;
@@ -44,7 +44,6 @@ const DayWeather = styled.div`
   text-align: center;
   top: 20px;
   transition: 0.5s;
-	/* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2), 0px 5px 5px -5px rgba(0, 0, 0, 0.3); */
 	border-radius: 5px;
 	opacity: 0;
 	svg {
@@ -68,7 +67,7 @@ const DayWeather = styled.div`
 		text-align: center;
 		font-size: 8px;
 		font-weight: 400;
-		color: #333;
+		color: #212121;
 		letter-spacing: 1px;
 		margin: 0px;
 		padding: 0px;
@@ -82,9 +81,8 @@ const DayWeather = styled.div`
 
 const WeeklyTemperaturePrediction = ({ weatherCodes, weeklyPoP12h,
 	weeklyT, moment }) => {
-	weatherCodes = weatherCodes.filter((item, index) => index % 2 == 0)
-	// weeklyPoP12h = weeklyPoP12h.filter((item, index) => index % 2 == 0)
-	weeklyT = weeklyT.filter((item, index) => index % 2 == 0)
+	weatherCodes = weatherCodes.filter((index) => index % 2 == 0)
+	weeklyT = weeklyT.filter(( index) => index % 2 == 0)
 
 	let indexs = [0, 1, 2, 3, 4, 5, 6]
 	let weeks = ["MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN"]

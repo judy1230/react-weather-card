@@ -199,7 +199,7 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
     <WeatherCardWrapper>
       <Top>
         <Cog onClick={() => handleCurrentPageChange('WeatherSetting')} />
-        <TemperaturePrediction predicationTemps={predicationTemps} moment={moment} />
+        <TemperaturePrediction predicationTemps={predicationTemps} moment={moment} observationTime={observationTime} />
         <Location>{locationName}</Location>
         <Description>{description} {comfortability}</Description>
         <CurrentWeather>
