@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import styled from '@emotion/styled'
 import { ThemeProvider } from '@emotion/react'
 import { getMoment, findLocation } from './utils/helpers'
@@ -8,6 +8,7 @@ import WeatherSetting from './views/WeatherSetting'
 
 
 const AUTHORIZATION_KEY = 'CWB-6B0FF102-FDE8-40C3-B2CA-CECA1E4E67E5'
+const AQI_KEY = '9be7b239-557b-4c10-9775-78cadfc555e9'
 const BASE_URL = 'opendata.cwb.gov.tw/api'
 const CURRENT_WEATHER_URL ='v1/rest/datastore/O-A0003-001?'
 const FORECAST_WEATHER_URL = 'v1/rest/datastore/F-C0032-001?'
@@ -17,6 +18,7 @@ const FORECAST_WEATHER_URL = 'v1/rest/datastore/F-C0032-001?'
 const theme = {
   light: {
     backgroundColor: '#ededed',
+    background:' linear-gradient(20deg,#fdffbc 0%, #ffdcb8 95%)',
     foregroundColor: '#f9f9f9',
     boxShadow: '0 1px 3px 0 #999999',
     titleColor: '#212121',
@@ -37,7 +39,6 @@ const theme = {
 };
 
 const Container = styled.div`
-  background-color:${({ theme }) => theme.backgroundColor};
   height: 100%;
   display: flex;
   align-items: center;
@@ -73,7 +74,8 @@ function App() {
     authorizationKey: AUTHORIZATION_KEY,
     forecastWeatherUrl: FORECAST_WEATHER_URL,
     currentWeatherUrl: CURRENT_WEATHER_URL,
-    baseUrl: BASE_URL
+    baseUrl: BASE_URL,
+    AQIKEY:AQI_KEY
   })
 
   return (

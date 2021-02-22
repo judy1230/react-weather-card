@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React from 'react'
 import styled from '@emotion/styled'
-import { ReactComponent as AirFlowIcon } from '../images/airFlow.svg'
+import { ReactComponent as AQIIcon } from '../images/AQI.svg'
 import { ReactComponent as RainIcon } from '../images/rainability1.svg'
 import { ReactComponent as RefreshIcon } from '../images/refresh.svg'
 import { ReactComponent as LoadingIcon } from '../images/loading.svg'
@@ -15,8 +15,8 @@ const WeatherCardWrapper = styled.div`
   min-width: 360px;
   box-shadow: ${({ theme }) => theme.boxShadow};
   background-color: ${({ theme }) => theme.backgroundColor};
+  background:${({ theme }) => theme.background};
   box-sizing: border-box;
-  padding: 15px;
   border-radius: 5px;
   &:hover .bottom {
     height: 100px;
@@ -30,7 +30,7 @@ const WeatherCardWrapper = styled.div`
     }
   }
   &:hover .refresh {
-    opacity: 0;
+    bottom: 120px;
   }
 `
 const Top = styled.div`
@@ -42,11 +42,10 @@ const Top = styled.div`
 const Bottom = styled.div`
   height: 10px;
   transition-duration: 1s;
-  background: ${({ theme }) => theme.background};
+  background-color: #fff8f8;
   border-radius: 0px 0px 5px 5px;
   display: flex;
   justify-content: center;
-	opacity: 0;
 	transition-duration: 1s;
   .box{
     .dayWeather h3{
@@ -64,13 +63,11 @@ const Location = styled.div`
 const Description = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.textColor};
-  /* margin-bottom: 30px; */
 `
 const CurrentWeather = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* margin-bottom: 30px; */
 `
 const Temperature = styled.div`
   color: ${({ theme }) => theme.temperatureColor};
@@ -82,33 +79,41 @@ const Celsius = styled.div`
   font-weight: normal;
   font-size: 42px;
 `
-const AirFlow = styled.div`
+
+const AQI = styled.div`
   display: flex;
   align-items: center;
   font-size: 16x;
   font-weight: 300;
   color: ${({ theme }) => theme.textColor};
   margin-bottom: 20px;
-  @keyframes floating {
+  @keyframes twinkling {
     0% {
-      transform: rotate(-25deg);
+      opacity: 1;
+      transform: scale(1.1);
     }
     50% {
-      transform: rotate(-20deg);
+      opacity: 0.5;
+      transform: scale(1);
     }
     100% {
-      transform: rotate(-25deg);
+      opacity: 1;
+      transform: scale(1.1);
     }
   }
-  svg {
-    width: 25px;
-    height: auto;
+  .aqiIcon{
+    width: 30px;
     margin-right: 30px;
-  }
-  svg .flag {
-    animation: floating 1s alternate infinite;
+    ${AQIData => console.log(AQIData)}
+    fill: ${({ AQIData }) => (AQIData === "良好" ? "#75cfb8" : AQIData === "普通" ? "#f4d160" : AQIData === "對敏感族群不健康" ? "#d68060" : AQIData === "對所有族群不健康" ? "#e40017" : AQIData === "非常不健康" ? "#822659" : AQIData === "危害" ? "black" : "transparent")};
+    animation: twinkling 2s  infinite ease;
+    svg{
+      fill: currentColor;
+
+    }
   }
 `
+
 const Rain = styled.div`
   @keyframes rain {
     0% {
@@ -179,18 +184,17 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 		observationTime,
     locationName,
 		description,
-		windSpeed,
 		temperature,
 		rainPossibility,
 		isLoading,
 		comfortability,
-    weatherCode,
     predicationTemps,
     weatherCodes,
     weeklyPoP12h,
     weeklyT,
-	} = weatherElement
-  console.log('weatherCodes', weatherCodes)
+    AQIData
+  } = weatherElement
+
 	return (
     <WeatherCardWrapper>
       <Top>
@@ -204,9 +208,9 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
           </Temperature>
           <WeatherIcon weatherCode={weatherCodes[0]} moment={moment} />
         </CurrentWeather>
-        <AirFlow>
-          <AirFlowIcon /> {windSpeed} m/h
-          </AirFlow>
+        <AQI AQIData={AQIData}>
+          <AQIIcon className="aqiIcon" /> 空氣品質: {AQIData}
+          </AQI>
         <Rain>
           <RainIcon /> {rainPossibility}%
           </Rain>

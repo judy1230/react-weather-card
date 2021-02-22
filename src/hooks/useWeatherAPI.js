@@ -71,6 +71,7 @@ const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
 		.then((data) => {
 			let cityName = '宜蘭市'
 			const locationData = data.records.locations[0].location.filter(city => city.locationName == cityName)
+			console.log('locationData', locationData)
 			const weeklyWeather = locationData[0].weatherElement.reduce(
 				(neededElements, item) => {
 					if (['Wx', 'PoP12h', 'T'].includes(item.elementName)) {
@@ -80,7 +81,6 @@ const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
 				},
 				{}
 			)
-			console.log('weeklyWeather', weeklyWeather)
 			const WeatherCodes = weeklyWeather.Wx.flatMap(item => item.elementValue[1].value)
 			const weeklyPoP12h = weeklyWeather.PoP12h.flatMap(item => item.elementValue[0].value)
 			const weeklyT = weeklyWeather.T.flatMap(item => item.elementValue[0].value)
@@ -94,8 +94,18 @@ const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
 			}
 		})
 }
+const fetchAQI = ({ AQIKEY, cityName }) => {
+	return fetch(`https://data.epa.gov.tw/api/v1/aqx_p_432?limit=1000&api_key=${AQIKEY}&format=json`)
+		.then((response) => response.json())
+		.then((data) => {
+			const locationData = data.records.filter(item => item.County == cityName)
+			const AQIData = locationData[0]['Status']
+			return AQIData
+		})
+}
 
-const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locationName, cityName, authorizationKey }) => {
+
+const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locationName, cityName, authorizationKey, AQIKEY }) => {
 	const [weatherElement, setWeatherElement] = useState({
 		observationTime: new Date(),
 		locationName: '',
@@ -109,23 +119,26 @@ const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locatio
 		predicationTemps: [],
 		weatherCodes: [],
 		weeklyPoP12h: [],
-		weeklyT:[]
+		weeklyT: [],
+		AQIData:''
 	})
 	const fetchData = useCallback(async () => {
 		setWeatherElement((prevState) => ({
 			...prevState,
 			isLoading: true,
 		}))
-		const [currentWeather, weatherForecast, weeklyWeather ] = await Promise.all([
+		const [currentWeather, weatherForecast, weeklyWeather, AQIData ] = await Promise.all([
 			fetchCurrentWeather({ baseUrl, currentWeatherUrl, authorizationKey, locationName}),
 			fetchWeatherForecast({ baseUrl, forecastWeatherUrl, authorizationKey, cityName }),
-			fetchWeeklyWeather({  authorizationKey, cityName }),
+			fetchWeeklyWeather({ authorizationKey, cityName }),
+			fetchAQI({ AQIKEY, cityName})
 		])
 
 		setWeatherElement({
 			...currentWeather,
 			...weatherForecast,
 			...weeklyWeather,
+			AQIData,
 			isLoading: false,
 		})
 	}, [authorizationKey, locationName, cityName])

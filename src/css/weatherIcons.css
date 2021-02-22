@@ -66,14 +66,7 @@ svg .sun {
   stroke-dasharray: 10px;
   transform: rotate(1turn) 10s;
 }
-/* svg.sun {
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle r='25' cx='0' cy='0'");
-	fill: #FFD633;
-	stroke-width: 30px;
-  stroke: rgba(255, 214, 51, 0.5);
-  stroke-dasharray: 8px;
-  transform: rotate(1turn) 10s;
-} */
+
 svg .cloud {
 	fill: #ccc;
 	animation: floating 10s infinite linear;
