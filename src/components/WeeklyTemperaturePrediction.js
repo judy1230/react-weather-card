@@ -86,10 +86,10 @@ const WeeklyTemperaturePrediction = ({ weatherCodes, weeklyPoP12h,
 	let indexs = [0, 1, 2, 3, 4, 5, 6]
 	const weeks = ["MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN"]
 
-	let date = weatherCodes.map(item => dayjs(item.time).day())
-	weatherCodes = weatherCodes.map(item => item.elementValue)
-	weatherCodes = weatherCodes.filter((index) => index % 2 == 0)
-	weeklyT = weeklyT.filter((index) => index % 2 == 0)
+	let date = (weatherCodes.map(item => dayjs(item.time).day())).filter((item, index) => index % 2 == 0)
+	weatherCodes = (weatherCodes.map(item => item.elementValue)).filter((item, index) => index % 2 == 0)
+
+	weeklyT = weeklyT.filter((item,index) => index % 2 == 0)
 
 	const dayWeather = indexs.map((index) =>
 		<DayWeather className="dayWeather">
