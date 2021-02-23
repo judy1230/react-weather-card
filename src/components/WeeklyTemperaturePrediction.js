@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import WeeklyWeatherIcons from './WeatherIcon'
+import dayjs from 'dayjs'
+
 
 const Container= styled.div`
 	height: 100%;
@@ -81,15 +83,17 @@ const DayWeather = styled.div`
 
 const WeeklyTemperaturePrediction = ({ weatherCodes, weeklyPoP12h,
 	weeklyT, moment }) => {
-	weatherCodes = weatherCodes.filter((index) => index % 2 == 0)
-	weeklyT = weeklyT.filter(( index) => index % 2 == 0)
-
 	let indexs = [0, 1, 2, 3, 4, 5, 6]
-	let weeks = ["MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN"]
+	const weeks = ["MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN"]
+
+	let date = weatherCodes.map(item => dayjs(item.time).day())
+	weatherCodes = weatherCodes.map(item => item.elementValue)
+	weatherCodes = weatherCodes.filter((index) => index % 2 == 0)
+	weeklyT = weeklyT.filter((index) => index % 2 == 0)
 
 	const dayWeather = indexs.map((index) =>
 		<DayWeather className="dayWeather">
-			<h3>{ weeks[index]}</h3>
+			<h3>{weeks[date[index]]}</h3>
 			<WeeklyWeatherIcons weatherCode={weatherCodes[index]} moment={moment} />
 			<h3>{weeklyT[index]}°C</h3>
 			{/* <h3>{weeklyPoP12h[index]}%</h3> */}

@@ -7,6 +7,7 @@ const fetchCurrentWeather = ({ authorizationKey, locationName }) => {
 		.then((response) => response.json())
 		.then((data) => {
 			const locationData = data.records.location[0]
+			console.log('locationData.weatherElement', locationData.weatherElement)
 			const weatherElements = locationData.weatherElement.reduce(
 				(neededElements, item) => {
 					if (['WDSD', 'TEMP'].includes(item.elementName)) {
@@ -16,7 +17,7 @@ const fetchCurrentWeather = ({ authorizationKey, locationName }) => {
 				},
 				{}
 			);
-
+			console.log('weatherElements', weatherElements)
 			return {
 				observationTime: locationData.time.obsTime,
 				locationName: locationData.locationName,
@@ -71,7 +72,6 @@ const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
 		.then((data) => {
 			let cityName = '宜蘭市'
 			const locationData = data.records.locations[0].location.filter(city => city.locationName == cityName)
-			console.log('locationData', locationData)
 			const weeklyWeather = locationData[0].weatherElement.reduce(
 				(neededElements, item) => {
 					if (['Wx', 'PoP12h', 'T'].includes(item.elementName)) {
@@ -81,12 +81,18 @@ const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
 				},
 				{}
 			)
-			const WeatherCodes = weeklyWeather.Wx.flatMap(item => item.elementValue[1].value)
+
+			const WeatherCodes = weeklyWeather.Wx.flatMap(item => {
+				const needElements = {
+					time: item.startTime,
+					elementValue: item.elementValue[1].value
+				}
+
+				return needElements
+			})
 			const weeklyPoP12h = weeklyWeather.PoP12h.flatMap(item => item.elementValue[0].value)
 			const weeklyT = weeklyWeather.T.flatMap(item => item.elementValue[0].value)
-
-
-
+			console.log('WeatherCodes', WeatherCodes)
 			return {
 				weatherCodes: WeatherCodes,
 				weeklyPoP12h: weeklyPoP12h,
