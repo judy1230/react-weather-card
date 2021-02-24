@@ -18,6 +18,8 @@ const WeatherCardWrapper = styled.div`
   background:${({ theme }) => theme.background};
   box-sizing: border-box;
   border-radius: 5px;
+
+
   &:hover .bottom {
     height: 100px;
     opacity: 1;
@@ -42,7 +44,7 @@ const Top = styled.div`
 const Bottom = styled.div`
   height: 10px;
   transition-duration: 1s;
-  background-color: #fff8f8;
+  background-color: #e7e6e1;
   border-radius: 0px 0px 5px 5px;
   display: flex;
   justify-content: center;
@@ -63,6 +65,7 @@ const Location = styled.div`
 const Description = styled.div`
   font-size: 16px;
   color: ${({ theme }) => theme.textColor};
+
 `
 const CurrentWeather = styled.div`
   display: flex;
@@ -187,7 +190,8 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
 		temperature,
 		rainPossibility,
 		isLoading,
-		comfortability,
+    comfortability,
+    weatherCode,
     predicationTemps,
     weatherCodes,
     weeklyPoP12h,
@@ -203,10 +207,10 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
         <Location>{locationName}</Location>
         <Description>{description} {comfortability}</Description>
         <CurrentWeather>
-          <Temperature>
+          <Temperature >
             {Math.round(temperature)} <Celsius>°C</Celsius>
           </Temperature>
-          <WeatherIcon weatherCode={weatherCodes[0]} moment={moment} />
+          <WeatherIcon weatherCode={weatherCode} moment={moment} />
         </CurrentWeather>
         <AQI AQIData={AQIData}>
           <AQIIcon className="aqiIcon" /> 空氣品質: {AQIData}

@@ -4,6 +4,7 @@ import WeeklyWeatherIcons from './WeatherIcon'
 import dayjs from 'dayjs'
 
 
+
 const Container= styled.div`
 	height: 100%;
   display: flex;
@@ -63,7 +64,7 @@ const DayWeather = styled.div`
 		stroke-width: 5px;
 	}
  svg .cloud {
-		fill: #ccc;
+		fill: whitesmoke;
 	}
 	h3 {
 		text-align: center;
@@ -74,10 +75,6 @@ const DayWeather = styled.div`
 		margin: 0px;
 		padding: 0px;
 	}
-
-
-
-
 `
 
 

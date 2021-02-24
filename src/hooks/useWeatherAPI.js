@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
-const fetchCurrentWeather = ({ authorizationKey, locationName }) => {
+const fetchCurrentWeather = ({ authorizationKey, currentWeatherUrl, locationName }) => {
 	return fetch(
-		`https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=${authorizationKey}&locationName=${locationName}`
+		`https://opendata.cwb.gov.tw/api/${currentWeatherUrl}?Authorization=${authorizationKey}&locationName=${locationName}`
 	)
 		.then((response) => response.json())
 		.then((data) => {
 			const locationData = data.records.location[0]
-			console.log('locationData.weatherElement', locationData.weatherElement)
 			const weatherElements = locationData.weatherElement.reduce(
 				(neededElements, item) => {
 					if (['WDSD', 'TEMP'].includes(item.elementName)) {
@@ -17,7 +16,6 @@ const fetchCurrentWeather = ({ authorizationKey, locationName }) => {
 				},
 				{}
 			);
-			console.log('weatherElements', weatherElements)
 			return {
 				observationTime: locationData.time.obsTime,
 				locationName: locationData.locationName,
@@ -27,9 +25,9 @@ const fetchCurrentWeather = ({ authorizationKey, locationName }) => {
 		})
 }
 
-const fetchWeatherForecast = ({ authorizationKey, cityName }) => {
+const fetchWeatherForecast = ({ authorizationKey, forecastWeatherUrl, cityName }) => {
 	return fetch(
-		`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${authorizationKey}&locationName=${cityName}`
+		`https://opendata.cwb.gov.tw/api/${forecastWeatherUrl}Authorization=${authorizationKey}&locationName=${cityName}`
 	)
 		.then((response) => response.json())
 		.then((data) => {
@@ -64,14 +62,15 @@ const fetchWeatherForecast = ({ authorizationKey, cityName }) => {
 		})
 }
 
-const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
+const fetchWeeklyWeather = ({ authorizationKey, cityName, weeklyWeatherUrl }) => {
+	console.log('weeklyWeatherUrl', weeklyWeatherUrl)
 	return fetch(
-		`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-003?Authorization=${authorizationKey}`
+		`https://opendata.cwb.gov.tw/api${weeklyWeatherUrl}?Authorization=${authorizationKey}`
 	)
 		.then((response) => response.json())
 		.then((data) => {
-			let cityName = '宜蘭市'
-			const locationData = data.records.locations[0].location.filter(city => city.locationName == cityName)
+			const locationData = data.records.locations[0].location.filter(city => city.locationName.indexOf(cityName))
+			console.log('locationData',locationData)
 			const weeklyWeather = locationData[0].weatherElement.reduce(
 				(neededElements, item) => {
 					if (['Wx', 'PoP12h', 'T'].includes(item.elementName)) {
@@ -87,14 +86,14 @@ const fetchWeeklyWeather = ({ authorizationKey, cityName }) => {
 					time: item.startTime,
 					elementValue: item.elementValue[1].value
 				}
-
 				return needElements
 			})
 			const weeklyPoP12h = weeklyWeather.PoP12h.flatMap(item => item.elementValue[0].value)
 			const weeklyT = weeklyWeather.T.flatMap(item => item.elementValue[0].value)
-			console.log('WeatherCodes', WeatherCodes)
+
 			return {
 				weatherCodes: WeatherCodes,
+				weatherCode: WeatherCodes[0].elementValue,
 				weeklyPoP12h: weeklyPoP12h,
 				weeklyT: weeklyT,
 			}
@@ -111,7 +110,9 @@ const fetchAQI = ({ AQIKEY, cityName }) => {
 }
 
 
-const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locationName, cityName, authorizationKey, AQIKEY }) => {
+const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, weeklyWeatherUrl, locationName, cityName, authorizationKey, AQIKEY }) => {
+	console.log('currentWeatherUrl', currentWeatherUrl)
+	console.log('forecastWeatherUrl',forecastWeatherUrl)
 	const [weatherElement, setWeatherElement] = useState({
 		observationTime: new Date(),
 		locationName: '',
@@ -121,6 +122,7 @@ const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locatio
 		rainPossibility: 0,
 		comfortability: '',
 		isLoading: true,
+		weatherCode:'',
 		predicationTemps: [],
 		weatherCodes: [],
 		weeklyPoP12h: [],
@@ -135,7 +137,7 @@ const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, locatio
 		const [currentWeather, weatherForecast, weeklyWeather, AQIData ] = await Promise.all([
 			fetchCurrentWeather({ baseUrl, currentWeatherUrl, authorizationKey, locationName}),
 			fetchWeatherForecast({ baseUrl, forecastWeatherUrl, authorizationKey, cityName }),
-			fetchWeeklyWeather({ authorizationKey, cityName }),
+			fetchWeeklyWeather({ authorizationKey, cityName, weeklyWeatherUrl }),
 			fetchAQI({ AQIKEY, cityName})
 		])
 

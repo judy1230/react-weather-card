@@ -1,0 +1,27 @@
+[
+	{ "locationName": "宜蘭縣", "url": "/v1/rest/datastore/F-D0047-003" },
+	{ "locationName": "桃園市", "url": "/v1/rest/datastore/F-D0047-007" },
+	{ "locationName": "新竹縣", "url": "/v1/rest/datastore/F-D0047-011" },
+	{ "locationName": "苗栗縣", "url": "/v1/rest/datastore/F-D0047-015" },
+	{ "locationName": "彰化縣", "url": "/v1/rest/datastore/F-D0047-019" },
+	{ "locationName": "南投縣", "url": "/v1/rest/datastore/F-D0047-023" },
+	{ "locationName": "雲林縣", "url": "/v1/rest/datastore/F-D0047-027" },
+	{ "locationName": "嘉義縣", "url": "/v1/rest/datastore/F-D0047-031" },
+	{ "locationName": "屏東縣", "url": "/v1/rest/datastore/F-D0047-035" },
+	{ "locationName": "臺東縣", "url": "/v1/rest/datastore/F-D0047-039" },
+	{ "locationName": "花蓮縣", "url": "/v1/rest/datastore/F-D0047-043" },
+	{ "locationName": "澎湖縣", "url": "/v1/rest/datastore/F-D0047-047" },
+	{ "locationName": "基隆縣", "url": "/v1/rest/datastore/F-D0047-051" },
+	{ "locationName": "新竹市", "url": "/v1/rest/datastore/F-D0047-055" },
+	{ "locationName": "嘉義市", "url": "/v1/rest/datastore/F-D0047-059" },
+	{ "locationName": "臺北市", "url": "/v1/rest/datastore/F-D0047-063" },
+	{ "locationName": "高雄市", "url": "/v1/rest/datastore/F-D0047-067" },
+	{ "locationName": "新北市", "url": "/v1/rest/datastore/F-D0047-071" },
+	{ "locationName": "臺中市", "url": "​/v1​/rest​/datastore​/F-D0047-075" },
+	{ "locationName": "臺南市", "url": "/v1/rest/datastore/F-D0047-079" },
+	{ "locationName": "連江縣", "url": "/v1/rest/datastore/F-D0047-083" },
+	{ "locationName": "金門市", "url": "/v1/rest/datastore/F-D0047-087" },
+	{ "locationName": "連江縣", "url": "/v1/rest/datastore/F-D0047-083" }
+
+
+]
