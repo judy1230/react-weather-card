@@ -10,6 +10,20 @@ import WeatherIcon from '../components/WeatherIcon'
 import TemperaturePrediction from '../components/TemperaturePrediction'
 import WeeklyTemperaturePrediction from '../components/WeeklyTemperaturePrediction'
 
+// let observationTime
+// let  locationName
+// let description
+// let  temperature
+// let  rainPossibility
+// let  isLoading
+// let  comfortability
+// let  weatherCode
+// let  predicationTemps
+// let  weatherCodes
+// let  weeklyPoP12h
+// let weeklyT
+// let  AQIData
+
 const WeatherCardWrapper = styled.div`
   position: relative;
   min-width: 360px;
@@ -180,10 +194,8 @@ const Cog = styled(CogIcon)`
   padding: 20px;
   z-index: 11;
 `
-
-
 const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChange }) => {
-	const {
+  const {
 		observationTime,
     locationName,
 		description,
@@ -198,16 +210,16 @@ const WeatherCard = ({ weatherElement, moment, fetchData, handleCurrentPageChang
     weeklyT,
     AQIData
   } = weatherElement
-
+console.log('weatherElement',weatherElement)
 	return (
     <WeatherCardWrapper>
       <Top>
         <Cog onClick={() => handleCurrentPageChange('WeatherSetting')} />
         <TemperaturePrediction predicationTemps={predicationTemps} moment={moment} observationTime={observationTime} />
-        <Location>{locationName}</Location>
-        <Description>{description} {comfortability}</Description>
+        <Location role="location">{locationName}</Location>
+        <Description role="description">{description} {comfortability}</Description>
         <CurrentWeather>
-          <Temperature >
+          <Temperature role="temperature">
             {Math.round(temperature)} <Celsius>°C</Celsius>
           </Temperature>
           <WeatherIcon weatherCode={weatherCode} moment={moment} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { ThemeProvider } from '@emotion/react'
 import dayjs from 'dayjs'
-import { NetworkOnly } from 'workbox-strategies';
+
 
 
 const theme = {
