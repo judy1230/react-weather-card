@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom'
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
 import { act } from 'react-dom/test-utils';
 import { unmountComponentAtNode } from "react-dom";
-import { getMoment, findLocation } from './../utils/helpers'
-//import { screen } from '@testing-library/dom'
+import { getMoment, findLocation } from '../utils/helpers'
+import '@testing-library/jest-dom/extend-expect';
 import WeatherCard from '../views/WeatherCard';
 const moment = 'day'
 
@@ -43,7 +43,7 @@ const weatherElement = {
 describe('can render waterCard', () => {
 	test("should render right location", () => {
 		render(<WeatherCard weatherElement={weatherElement} moment={moment} />)
-		console.log('weatherElement.locationName', weatherElement.locationName)
+
 		expect(screen.getByRole('location')).toHaveTextContent(`${weatherElement.locationName}`)
 	})
 
@@ -55,6 +55,22 @@ describe('can render waterCard', () => {
 	test("should render correct Description", () => {
 		render(<WeatherCard weatherElement={weatherElement} moment={moment} />)
 		expect(screen.getByRole('description')).toHaveTextContent(`${weatherElement.description} ${weatherElement.comfortability}`)
+	})
+
+	test("should render correct AQI", () => {
+		render(<WeatherCard weatherElement={weatherElement} moment={moment} />)
+		expect(screen.getByRole('aqi')).toHaveTextContent(`${weatherElement.AQIData}`)
+		// expect(screen.getByRole('aqiicon')).toHaveStyle('fill: #f4d160')
+	})
+
+	test("should render correct Rain Possibility", () => {
+		render(<WeatherCard weatherElement={weatherElement} moment={moment} />)
+		expect(screen.getByRole('rainPossibility')).toHaveTextContent(`rainability1.svg ${weatherElement.rainPossibility}%`)
+	})
+
+	test("should render correct weatherIcon", () => {
+		render(<WeatherCard weatherElement={weatherElement} moment={moment} />)
+		expect(screen.getByRole('weatherIcon')).toHaveTextContent(`23 °Cday-cloudy.svg`)
 	})
 
 })

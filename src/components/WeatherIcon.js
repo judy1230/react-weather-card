@@ -64,14 +64,13 @@ const weatherCode2Type = (weatherCode) => {
 }
 
 const WeatherIcon = ({ weatherCode, moment })=>{
-	console.log('weatherCode', weatherCode)
-	console.log('moment', moment)
+
 	const weatherType = useMemo(() => weatherCode2Type(weatherCode),[weatherCode])
 	const weatherIcon = weatherIcons[moment][weatherType]
 
 
 	return (
-		<IconContainer>
+		<IconContainer >
 			{weatherIcon}
 		</IconContainer>
 	)

@@ -218,16 +218,16 @@ console.log('weatherElement',weatherElement)
         <TemperaturePrediction predicationTemps={predicationTemps} moment={moment} observationTime={observationTime} />
         <Location role="location">{locationName}</Location>
         <Description role="description">{description} {comfortability}</Description>
-        <CurrentWeather>
+        <CurrentWeather role="weatherIcon">
           <Temperature role="temperature">
             {Math.round(temperature)} <Celsius>°C</Celsius>
           </Temperature>
-          <WeatherIcon weatherCode={weatherCode} moment={moment} />
+          <WeatherIcon  weatherCode={weatherCode} moment={moment} />
         </CurrentWeather>
-        <AQI AQIData={AQIData}>
+        <AQI role="aqi" AQIData={AQIData}>
           <AQIIcon className="aqiIcon" /> 空氣品質: {AQIData}
           </AQI>
-        <Rain>
+        <Rain role="rainPossibility">
           <RainIcon /> {rainPossibility}%
           </Rain>
         <Refresh className="refresh" onClick={fetchData}
