@@ -7,9 +7,6 @@ import useWeatherAPI from './hooks/useWeatherAPI'
 import WeatherSetting from './views/WeatherSetting'
 import weatherUrl from './data/API-URL.json'
 
-
-const AUTHORIZATION_KEY = 'CWB-6B0FF102-FDE8-40C3-B2CA-CECA1E4E67E5'
-const AQI_KEY = '9be7b239-557b-4c10-9775-78cadfc555e9'
 const BASE_URL = 'opendata.cwb.gov.tw/api'
 const CURRENT_WEATHER_URL ='v1/rest/datastore/O-A0003-001'
 const FORECAST_WEATHER_URL = 'v1/rest/datastore/F-C0032-001?'
