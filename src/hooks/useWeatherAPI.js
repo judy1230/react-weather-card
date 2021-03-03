@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
+
+
 const fetchCurrentWeather = ({ authorizationKey, currentWeatherUrl, locationName }) => {
 	return fetch(
 		`https://opendata.cwb.gov.tw/api/${currentWeatherUrl}?Authorization=${authorizationKey}&locationName=${locationName}`
@@ -111,8 +113,7 @@ const fetchAQI = ({ AQIKEY, cityName }) => {
 
 
 const useWeatherAPI = ({ baseUrl, currentWeatherUrl, forecastWeatherUrl, weeklyWeatherUrl, locationName, cityName, authorizationKey, AQIKEY }) => {
-	console.log('currentWeatherUrl', currentWeatherUrl)
-	console.log('forecastWeatherUrl',forecastWeatherUrl)
+	
 	const [weatherElement, setWeatherElement] = useState({
 		observationTime: new Date(),
 		locationName: '',
