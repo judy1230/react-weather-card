@@ -1,0 +1,17 @@
+<svg viewbox="-50 -50 100 100">
+  <circle class="cloud" cx="-15" cy="15" r="20">
+    <animate attributeName="cx" dur="3s" values="-15;-12;-15" repeatCount="indefinite"></animate>
+  </circle>
+  <circle class="cloud" cx="0" cy="15" r="20">
+    <animate attributeName="cy" dur="4s" values="15;17;15" repeatCount="indefinite"></animate>
+  </circle>
+  <circle class="cloud" cx="15" cy="15" r="20">
+    <animate attributeName="cx" dur="6s" values="15;20;15" repeatCount="indefinite"></animate>
+  </circle>
+  <circle class="cloud" cx="-7" cy="-2" r="15">
+    <animate attributeName="cy" dur="5s" values="-2;2;-2" repeatCount="indefinite"></animate>
+  </circle>
+  <circle class="cloud" cx="7" cy="-4" r="15">
+    <animate attributeName="cx" dur="3s" values="7;12;7" repeatCount="indefinite"></animate>
+  </circle>
+</svg>

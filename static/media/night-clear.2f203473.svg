@@ -1,0 +1,11 @@
+<svg viewbox="-50 -50 100 100">
+  <g>
+    <circle class="moon" cx="0" cy="0" r="20"></circle>
+    <circle class="moon-shield" cx="0" cy="0" r="20"></circle>
+    <circle class="star" cx="-30" cy="30" r="1" style="animation-delay: -0.4s"></circle>
+    <circle class="star" cx="30" cy="35" r="1" style="animation-delay: -1s"></circle>
+    <circle class="star" cx="-10" cy="40" r="1" style="animation-delay: 1s"></circle>
+    <circle class="star" cx="-30" cy="-35" r="1"></circle>
+    <circle class="star" cx="30" cy="-25" r="1" style="animation-delay: 2s"></circle>
+  </g>
+</svg>
