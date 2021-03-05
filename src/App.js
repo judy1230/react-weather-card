@@ -69,7 +69,7 @@ function App() {
   }, [moment])
 
   const Weekly_WEATHER_URL = weatherUrl.filter(item => item.locationName === cityName)[0].url
-  
+
   const [weatherElement, fetchData] = useWeatherAPI({
     locationName,
     cityName,
@@ -78,7 +78,7 @@ function App() {
     currentWeatherUrl: CURRENT_WEATHER_URL,
     weeklyWeatherUrl: Weekly_WEATHER_URL,
     baseUrl: BASE_URL,
-    AQIKEY:AQI_KEY
+    AQIKEY: AQI_KEY
   })
 
   return (
